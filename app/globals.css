@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-abyss: #0B0A10;
+  --color-surface-obsidian: #15121C;
+  --color-surface-elevated: #1E1A27;
+  --color-border-gothic: #2A2236;
+  --color-border-subtle: #3B324D;
+  --color-text-bone: #D9D2C3;
+  --color-text-ash: #8A8397;
+  --color-accent-blood: #8B1E2D;
+  --color-accent-blood-bright: #B8283D;
+  --color-accent-gold: #C9A24B;
+  --color-accent-gold-bright: #DFB75E;
+  --color-magic-shadow: #4B2E6F;
+
+  --font-pixel: var(--font-pixel), monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --background: #0B0A10;
+  --foreground: #D9D2C3;
+}
+
+body {
+  background-color: var(--color-bg-abyss);
+  color: var(--color-text-bone);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Pixel Rendering Utilities */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Stepped Drop Shadows */
+.pixel-shadow {
+  box-shadow: 3px 3px 0px 0px #000000;
+}
+
+.pixel-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.pixel-shadow-lg {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.pixel-shadow-gold {
+  box-shadow: 3px 3px 0px 0px #000000, 0 0 0 1px #C9A24B;
+}
+
+.pixel-shadow-blood {
+  box-shadow: 3px 3px 0px 0px #000000, 0 0 0 1px #8B1E2D;
+}
+
+/* Active State Stepped Press */
+.pixel-press:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+/* Focus Ring for Keyboard Navigation */
+.pixel-focus:focus-visible {
+  outline: 2px dashed #C9A24B;
+  outline-offset: 2px;
+}
+
+/* Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

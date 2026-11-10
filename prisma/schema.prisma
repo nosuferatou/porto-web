@@ -1,0 +1,125 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id               String   @id @default("default-profile")
+  name             String
+  title            String
+  bio              String
+  location         String
+  photoUrl         String?
+  status           String   @default("Available for new projects & commissions")
+  specialty        String?
+  discipline       String?
+  timezone         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Skill {
+  id             String   @id @default(cuid())
+  name           String
+  category       String
+  iconKey        String
+  iconUrl        String?  // path to uploaded custom icon (e.g. /uploads/abc.png)
+  description    String
+  order          Int      @default(0)
+  showOnHomepage Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([order])
+  @@index([showOnHomepage])
+}
+
+model Post {
+  id           String    @id @default(cuid())
+  title        String
+  slug         String    @unique
+  summary      String
+  content      String    @default("")
+  category     String
+  categoryId   String?
+  postCategory Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  thumbnailUrl String?
+  images       String    @default("[]") // JSON string array
+  tags         String    @default("[]") // JSON string array
+  role         String    @default("")
+  tools        String    @default("[]") // JSON string array
+  externalLink String?
+  githubLink   String?
+  status       String    @default("published") // 'draft' | 'published'
+  featured     Boolean   @default(false)
+  glyph        String    @default("⚔️")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([status, featured])
+  @@index([category])
+  @@index([categoryId])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @default("")
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model ContactLink {
+  id        String   @id @default(cuid())
+  platform  String
+  label     String
+  url       String
+  iconKey   String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  sessions     Session[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
+
+model RateLimit {
+  id          String    @id @default(cuid())
+  ipKey       String
+  action      String
+  attempts    Int       @default(1)
+  lockedUntil DateTime?
+  lastAttempt DateTime  @default(now())
+
+  @@unique([ipKey, action])
+  @@index([ipKey, action])
+}
