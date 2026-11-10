@@ -45,7 +45,8 @@ export function sanitizeExternalUrl(
   if (value === undefined || value === null) return null;
   const str = String(value).trim();
   if (str === "") return null;
-  if (!isValidExternalUrl(str)) {
+  const valid: boolean = isValidExternalUrl(str);
+  if (!valid) {
     throw new Error(
       `${fieldName} must be a valid HTTP or HTTPS URL. Received: "${str.slice(0, 80)}"`
     );
@@ -64,7 +65,8 @@ export function sanitizeImageUrl(
   if (value === undefined || value === null) return null;
   const str = String(value).trim();
   if (str === "") return null;
-  if (!isValidImageSrc(str)) {
+  const valid: boolean = isValidImageSrc(str);
+  if (!valid) {
     throw new Error(
       `${fieldName} must be a valid HTTP/HTTPS URL or an uploaded image path. Received: "${str.slice(0, 80)}"`
     );

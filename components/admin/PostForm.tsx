@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const inputCls =
 const labelCls =
   "block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1";
 
-const GLYPH_OPTIONS = ["⚔️", "📖", "🛡️", "🏰", "⚡", "🃏", "✦", "🔮", "📜", "🏆"];
+const GLYPH_OPTIONS = ["âš”ï¸", "ðŸ“–", "ðŸ›¡ï¸", "ðŸ°", "âš¡", "ðŸƒ", "âœ¦", "ðŸ”®", "ðŸ“œ", "ðŸ†"];
 
 function CharCount({ value, max }: { value: string; max: number }) {
   const len = value.length;
@@ -79,7 +79,20 @@ export const PostForm: React.FC<PostFormProps> = ({
   const [selectedTools, setSelectedTools] = useState<string[]>(
     initialData?.tools || []
   );
-  const [availableTools, setAvailableTools] = useState<string[]>([]);
+  const [availableTools, setAvailableTools] = useState<string[]>(() =>
+  Array.from(
+    new Set([
+      "Photoshop",
+      "Illustrator",
+      "Figma",
+      "Next.js",
+      "TypeScript",
+      "Kotlin",
+      "Blender",
+      ...(initialData?.tools ?? []),
+    ])
+  )
+);
   const [externalLink, setExternalLink] = useState(
     initialData?.externalLink || ""
   );
@@ -90,7 +103,7 @@ export const PostForm: React.FC<PostFormProps> = ({
   const [featured, setFeatured] = useState<boolean>(
     initialData?.featured || false
   );
-  const [glyph, setGlyph] = useState(initialData?.glyph || "⚔️");
+  const [glyph, setGlyph] = useState(initialData?.glyph || "âš”ï¸");
 
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -126,23 +139,7 @@ export const PostForm: React.FC<PostFormProps> = ({
       .catch(() => {});
   }, []);
 
-  // Ensure legacy tool values remain selectable
-  useEffect(() => {
-    if (initialData?.tools?.length) {
-      setAvailableTools((prev) =>
-        Array.from(new Set([...prev, ...initialData.tools!]))
-      );
-    }
-  }, [initialData?.tools]);
 
-  // Fallback defaults if no tools are configured yet
-  useEffect(() => {
-    setAvailableTools((prev) =>
-      prev.length > 0
-        ? prev
-        : ["Photoshop", "Illustrator", "Figma", "Next.js", "TypeScript", "Kotlin", "Blender"]
-    );
-  }, []);
 
   const handleTitleChange = (val: string) => {
     setTitle(val);
@@ -259,7 +256,7 @@ export const PostForm: React.FC<PostFormProps> = ({
     }
   };
 
-  const handleSaveAsDraft = (e: React.MouseEvent) => {
+  const handleSaveAsDraft = () => {
     const syntheticEvent = {
       preventDefault: () => {},
     } as React.FormEvent;
@@ -271,7 +268,7 @@ export const PostForm: React.FC<PostFormProps> = ({
       <AdminAlert message={alert} />
 
       <PixelCard variant="default" cornerStuds className="p-6 space-y-4">
-        {/* ── Title & Slug ── */}
+        {/* â”€â”€ Title & Slug â”€â”€ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -312,7 +309,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* ── Category, Glyph, Status ── */}
+        {/* â”€â”€ Category, Glyph, Status â”€â”€ */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="post-category" className={labelCls}>
@@ -394,7 +391,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* ── Thumbnail Upload ── */}
+        {/* â”€â”€ Thumbnail Upload â”€â”€ */}
         <div className="p-4 bg-[#100D16] border border-[var(--color-border-gothic)] space-y-3">
           <label htmlFor="thumbnail-file" className="block font-pixel text-xs text-[var(--color-accent-gold)] uppercase tracking-wider">
             Thumbnail Image
@@ -425,7 +422,7 @@ export const PostForm: React.FC<PostFormProps> = ({
                 </p>
               )}
               <p className="font-mono text-[10px] text-[var(--color-text-ash)]">
-                Max 5MB · PNG, JPEG, WEBP, GIF. Stored in /public/uploads/.
+                Max 5MB Â· PNG, JPEG, WEBP, GIF. Stored in /public/uploads/.
               </p>
               {thumbnailUrl && (
                 <div className="flex items-center gap-2">
@@ -462,7 +459,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* ── Summary ── */}
+        {/* â”€â”€ Summary â”€â”€ */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label htmlFor="post-summary" className={labelCls}>
@@ -482,7 +479,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           />
         </div>
 
-        {/* ── Markdown Content ── */}
+        {/* â”€â”€ Markdown Content â”€â”€ */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label htmlFor="post-content" className={labelCls}>
@@ -501,7 +498,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           />
         </div>
 
-        {/* ── Role & Tools ── */}
+        {/* â”€â”€ Role & Tools â”€â”€ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="post-role" className={labelCls}>
@@ -547,12 +544,12 @@ export const PostForm: React.FC<PostFormProps> = ({
               ))}
             </div>
             <p className="font-mono text-[10px] text-[var(--color-text-ash)] mt-1">
-              Manage available tools via Admin → Skills.
+              Manage available tools via Admin â†’ Skills.
             </p>
           </div>
         </div>
 
-        {/* ── Tags & Links ── */}
+        {/* â”€â”€ Tags & Links â”€â”€ */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="post-tags" className={labelCls}>
@@ -597,7 +594,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* ── Featured ── */}
+        {/* â”€â”€ Featured â”€â”€ */}
         <label className="flex items-center gap-3 pt-2 cursor-pointer group">
           <input
             id="post-featured"
@@ -607,14 +604,14 @@ export const PostForm: React.FC<PostFormProps> = ({
             className="w-4 h-4 accent-[var(--color-accent-gold)] cursor-pointer"
           />
           <span className="font-pixel text-xs text-[var(--color-accent-gold)] uppercase tracking-wider select-none group-hover:text-[var(--color-accent-gold-bright)]">
-            ★ Feature on Homepage
+            â˜… Feature on Homepage
           </span>
           <span className="font-mono text-[10px] text-[var(--color-text-ash)]">
             (shows in the featured section of the public landing page)
           </span>
         </label>
 
-        {/* ── Actions ── */}
+        {/* â”€â”€ Actions â”€â”€ */}
         <div className="pt-4 border-t border-[var(--color-border-gothic)] flex flex-col sm:flex-row items-center justify-between gap-3">
           <PixelButton
             type="button"
@@ -622,11 +619,11 @@ export const PostForm: React.FC<PostFormProps> = ({
             size="sm"
             onClick={() => router.push("/admin/posts")}
           >
-            ‹ Cancel
+            â€¹ Cancel
           </PixelButton>
 
           <div className="flex items-center gap-3">
-            {/* Save as Draft — only shown for published posts or new posts */}
+            {/* Save as Draft â€” only shown for published posts or new posts */}
             {(status === "published" || !isEdit) && (
               <button
                 type="button"

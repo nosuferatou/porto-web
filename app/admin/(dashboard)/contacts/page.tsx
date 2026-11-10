@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { PixelCard, PixelButton } from "@/components/ui";
@@ -16,7 +16,7 @@ interface ContactItem {
 }
 
 // Supported platform options with stable iconKey values.
-// "Direct Channel" is intentionally excluded — it has its own section.
+// "Direct Channel" is intentionally excluded â€” it has its own section.
 const PLATFORM_OPTIONS: Array<{ value: string; iconKey: string }> = [
   { value: "GitHub", iconKey: "github" },
   { value: "GitLab", iconKey: "gitlab" },
@@ -58,13 +58,13 @@ export default function AdminContactsPage() {
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
 
-  // ── Direct Channel ───────────────────────────────────────────────────────
+  // â”€â”€ Direct Channel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [directEmail, setDirectEmail] = useState("");
   const [directEmailInput, setDirectEmailInput] = useState("");
   const [savingDirect, setSavingDirect] = useState(false);
   const [loadingDirect, setLoadingDirect] = useState(true);
 
-  // ── Add form ─────────────────────────────────────────────────────────────
+  // â”€â”€ Add form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [addPlatform, setAddPlatform] = useState("GitHub");
   const [addCustomPlatform, setAddCustomPlatform] = useState("");
   const [addLabel, setAddLabel] = useState("");
@@ -72,17 +72,17 @@ export default function AdminContactsPage() {
   const [addOrder, setAddOrder] = useState(0);
   const [adding, setAdding] = useState(false);
 
-  // ── Edit state ───────────────────────────────────────────────────────────
+  // â”€â”€ Edit state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPlatform, setEditPlatform] = useState("");
   const [editCustomPlatform, setEditCustomPlatform] = useState("");
   const [editLabel, setEditLabel] = useState("");
   const [editUrl, setEditUrl] = useState("");
-  const [editIconKey, setEditIconKey] = useState("");
+
   const [editOrder, setEditOrder] = useState(0);
   const [saving, setSaving] = useState(false);
 
-  // ── Delete confirmation ──────────────────────────────────────────────────
+  // â”€â”€ Delete confirmation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [deleteTarget, setDeleteTarget] = useState<ContactItem | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -99,7 +99,7 @@ export default function AdminContactsPage() {
 
   // Load Direct Channel email
   const loadDirectChannel = async () => {
-    setLoadingDirect(true);
+
     try {
       const res = await fetch("/api/admin/direct-channel");
       const data = await res.json();
@@ -121,7 +121,7 @@ export default function AdminContactsPage() {
     setTimeout(() => setAlert(null), 5000);
   };
 
-  // ── Save Direct Channel ──────────────────────────────────────────────────
+  // â”€â”€ Save Direct Channel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleSaveDirect = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingDirect(true);
@@ -146,7 +146,7 @@ export default function AdminContactsPage() {
     }
   };
 
-  // ── Add conduit ──────────────────────────────────────────────────────────
+  // â”€â”€ Add conduit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     setAdding(true);
@@ -193,7 +193,7 @@ export default function AdminContactsPage() {
     }
   };
 
-  // ── Inline edit ──────────────────────────────────────────────────────────
+  // â”€â”€ Inline edit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const startEdit = (c: ContactItem) => {
     setEditingId(c.id);
     // Determine if platform is a known option or "Other"
@@ -207,7 +207,7 @@ export default function AdminContactsPage() {
     }
     setEditLabel(c.label);
     setEditUrl(c.url);
-    setEditIconKey(c.iconKey);
+
     setEditOrder(c.order);
     setAlert(null);
   };
@@ -255,7 +255,7 @@ export default function AdminContactsPage() {
     }
   };
 
-  // ── Delete ───────────────────────────────────────────────────────────────
+  // â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleDelete = async () => {
     if (!deleteTarget) return;
     setDeleting(true);
@@ -298,10 +298,10 @@ export default function AdminContactsPage() {
 
       <AdminAlert message={alert} />
 
-      {/* ── Direct Channel Section ─────────────────────────────────────── */}
+      {/* â”€â”€ Direct Channel Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PixelCard variant="elevated" cornerStuds className="p-6">
         <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-accent-gold)] uppercase tracking-wider mb-1">
-          ✦ Direct Channel
+          âœ¦ Direct Channel
         </h2>
         <p className="font-mono text-[11px] text-[var(--color-text-ash)] mb-4">
           The primary contact email displayed in the public contact section.
@@ -349,7 +349,7 @@ export default function AdminContactsPage() {
         )}
       </PixelCard>
 
-      {/* ── Forge New Conduit ──────────────────────────────────────────── */}
+      {/* â”€â”€ Forge New Conduit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PixelCard variant="elevated" cornerStuds className="p-6">
         <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-accent-gold)] uppercase tracking-wider mb-4">
           + Forge New Conduit
@@ -367,7 +367,9 @@ export default function AdminContactsPage() {
               </label>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 shrink-0 flex items-center justify-center bg-[#120E18] border border-[var(--color-border-gothic)] text-[var(--color-text-bone)]">
-                  {(() => { const Icon = getContactIcon(getIconKeyForPlatform(addPlatform)); return <Icon size={18} />; })()}
+                  {React.createElement(getContactIcon(getIconKeyForPlatform(addPlatform)), {
+                    size: 18,
+                  })}
                 </div>
                 <select
                   id="contact-platform"
@@ -470,7 +472,7 @@ export default function AdminContactsPage() {
         </form>
       </PixelCard>
 
-      {/* ── Active Conduits Table ──────────────────────────────────────── */}
+      {/* â”€â”€ Active Conduits Table â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PixelCard variant="default" className="p-0 overflow-hidden">
         <div className="p-4 border-b border-[var(--color-border-gothic)]">
           <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-text-bone)] uppercase tracking-wide">
@@ -582,7 +584,7 @@ export default function AdminContactsPage() {
                       <td className="p-3 font-medium text-[var(--color-text-bone)]">
                         <div className="flex items-center gap-2">
                           <div className="text-[var(--color-text-ash)] shrink-0">
-                            {(() => { const Icon = getContactIcon(c.iconKey); return <Icon size={16} />; })()}
+                            {React.createElement(getContactIcon(c.iconKey), { size: 16 })}
                           </div>
                           {c.platform}
                         </div>
@@ -595,7 +597,7 @@ export default function AdminContactsPage() {
                           rel="noopener noreferrer"
                           className="text-[var(--color-accent-gold)] hover:underline truncate block"
                         >
-                          {c.url} ↗
+                          {c.url} â†—
                         </a>
                       </td>
                       <td className="p-3 text-right whitespace-nowrap space-x-1">

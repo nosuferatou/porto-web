@@ -46,11 +46,6 @@ interface SkillItem {
   showOnHomepage: boolean;
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function isCustom(tool: string) {
-  return !PREDEFINED_TOOLS.some((t) => t.label === tool) || tool === "Custom Tool";
-}
-
 // ─── Styles ──────────────────────────────────────────────────────────────────
 const inputCls =
   "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none";

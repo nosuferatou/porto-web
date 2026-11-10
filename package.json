@@ -9,14 +9,15 @@
     "lint": "eslint",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
-    "db:create-admin": "node scripts/create-admin.js",
-    "db:reset-admin": "node scripts/reset-admin.js"
+    "db:create-admin": "node scripts/create-admin.mjs",
+    "db:reset-admin": "node scripts/reset-admin.mjs"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "@supabase/supabase-js": "^2.118.0",
     "next": "16.4.5",
     "prisma": "^6.19.3",
     "react": "19.3.0",
@@ -31,5 +32,10 @@
     "eslint-config-next": "16.4.5",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "prisma@6.19.3": true
   }
 }

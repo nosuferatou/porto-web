@@ -35,7 +35,15 @@ export default function AdminProfilePage() {
   const [specialty, setSpecialty] = useState("");
   const [discipline, setDiscipline] = useState("");
   const [timezone, setTimezone] = useState("Asia/Jakarta");
-  const [timezones, setTimezones] = useState<string[]>([]);
+  const [timezones] = useState<string[]>(() => {
+  try {
+    return typeof Intl.supportedValuesOf === "function"
+      ? (Intl.supportedValuesOf("timeZone") as string[])
+      : [];
+  } catch {
+    return [];
+  }
+});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -58,17 +66,6 @@ export default function AdminProfilePage() {
         }
       })
       .finally(() => setLoading(false));
-  }, []);
-
-  // Populate timezone list from the browser's Intl API (Node 18+ / modern browsers)
-  useEffect(() => {
-    try {
-      if (typeof Intl.supportedValuesOf === "function") {
-        setTimezones(Intl.supportedValuesOf("timeZone") as string[]);
-      }
-    } catch {
-      // Silently ignore — the datalist will just be empty; free-text still works
-    }
   }, []);
 
   const showAlert = (text: string, type: AdminAlertMessage["type"] = "error") => {

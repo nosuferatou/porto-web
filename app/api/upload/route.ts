@@ -1,11 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
-import fs from "node:fs/promises";
-import path from "node:path";
-import crypto from "node:crypto";
-import { validateAdminSession } from "@/lib/auth-server";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ALLOWED_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif"]);
+import "server-only";
+
+import { NextRequest, NextResponse } from "next/server";
+import crypto from "node:crypto";
+import path from "node:path";
+import { validateAdminSession } from "@/lib/auth-server";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+
+
+
+const BUCKET_NAME = "portofolio-uploads";
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+const ALLOWED_EXTENSIONS = new Set([
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".webp",
+  ".gif",
+]);
+
 const ALLOWED_MIME_TYPES = new Set([
   "image/png",
   "image/jpeg",
@@ -13,27 +27,31 @@ const ALLOWED_MIME_TYPES = new Set([
   "image/gif",
 ]);
 
-// Magic byte validation to prevent malicious file uploads
 function validateFileSignature(buffer: Buffer, ext: string): boolean {
-  if (buffer.length < 8) return false;
+  if (buffer.length < 12) return false;
 
   if (ext === ".png") {
-    // 89 50 4E 47 0D 0A 1A 0A
     return (
       buffer[0] === 0x89 &&
       buffer[1] === 0x50 &&
       buffer[2] === 0x4e &&
-      buffer[3] === 0x47
+      buffer[3] === 0x47 &&
+      buffer[4] === 0x0d &&
+      buffer[5] === 0x0a &&
+      buffer[6] === 0x1a &&
+      buffer[7] === 0x0a
     );
   }
 
   if (ext === ".jpg" || ext === ".jpeg") {
-    // FF D8 FF
-    return buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+    return (
+      buffer[0] === 0xff &&
+      buffer[1] === 0xd8 &&
+      buffer[2] === 0xff
+    );
   }
 
   if (ext === ".gif") {
-    // GIF87a or GIF89a (47 49 46 38)
     return (
       buffer[0] === 0x47 &&
       buffer[1] === 0x49 &&
@@ -43,103 +61,119 @@ function validateFileSignature(buffer: Buffer, ext: string): boolean {
   }
 
   if (ext === ".webp") {
-    // RIFF....WEBP (52 49 46 46 ... 57 45 42 50)
-    const isRiff =
-      buffer[0] === 0x52 &&
-      buffer[1] === 0x49 &&
-      buffer[2] === 0x46 &&
-      buffer[3] === 0x46;
-    const isWebp =
-      buffer[8] === 0x57 &&
-      buffer[9] === 0x45 &&
-      buffer[10] === 0x42 &&
-      buffer[11] === 0x50;
-    return isRiff && isWebp;
+    return (
+      buffer.toString("ascii", 0, 4) === "RIFF" &&
+      buffer.toString("ascii", 8, 12) === "WEBP"
+    );
   }
 
   return false;
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Authorization: strictly require active admin session
   const user = await validateAdminSession();
+
   if (!user) {
     return NextResponse.json(
-      { error: "Unauthorized access: Sanctum session invalid." },
+      { error: "Unauthorized access." },
       { status: 401 }
     );
   }
 
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as File | null;
+    const fileEntry = formData.get("file");
 
-    if (!file) {
+    if (!(fileEntry instanceof File)) {
       return NextResponse.json(
-        { error: "No image relic provided." },
+        { error: "No image file provided." },
         { status: 400 }
       );
     }
 
-    // 2. Validate Size
-    if (file.size > MAX_FILE_SIZE) {
+    const file = fileEntry;
+
+    if (file.size === 0 || file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { error: "Payload exceeds 5MB sanctum limit." },
+        { error: "Image must be between 1 byte and 5MB." },
         { status: 400 }
       );
     }
 
-    // 3. Validate MIME type
     if (!ALLOWED_MIME_TYPES.has(file.type)) {
       return NextResponse.json(
-        { error: "Forbidden file type. Only PNG, JPEG, WEBP, and GIF are allowed." },
+        { error: "Only PNG, JPEG, WEBP, and GIF are allowed." },
         { status: 400 }
       );
     }
 
-    // 4. Validate Extension (Prevent path traversal)
-    const rawExt = path.extname(file.name).toLowerCase();
-    if (!ALLOWED_EXTENSIONS.has(rawExt)) {
+    const ext = path.extname(file.name).toLowerCase();
+
+    if (!ALLOWED_EXTENSIONS.has(ext)) {
       return NextResponse.json(
         { error: "Invalid file extension." },
         { status: 400 }
       );
     }
 
-    // 5. Read Buffer and Validate Signature
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const mimeByExtension: Record<string, string> = {
+      ".png": "image/png",
+      ".jpg": "image/jpeg",
+      ".jpeg": "image/jpeg",
+      ".webp": "image/webp",
+      ".gif": "image/gif",
+    };
 
-    if (!validateFileSignature(buffer, rawExt)) {
+    if (mimeByExtension[ext] !== file.type) {
       return NextResponse.json(
-        { error: "Corrupted or malicious file signature detected." },
+        { error: "File extension and MIME type do not match." },
         { status: 400 }
       );
     }
 
-    // 6. Generate Cryptographically Safe Random Filename
-    const randomName = crypto.randomBytes(16).toString("hex");
-    const safeFilename = `${randomName}${rawExt}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Target Directory: public/uploads
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadsDir, { recursive: true });
+    if (!validateFileSignature(buffer, ext)) {
+      return NextResponse.json(
+        { error: "Invalid image file signature." },
+        { status: 400 }
+      );
+    }
 
-    const filePath = path.join(uploadsDir, safeFilename);
+    const safeFilename = `${crypto.randomBytes(16).toString("hex")}${ext}`;
+    const storagePath = `uploads/${safeFilename}`;
 
-    // Write file securely to filesystem
-    await fs.writeFile(filePath, buffer);
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from(BUCKET_NAME)
+      .upload(storagePath, buffer, {
+        contentType: file.type,
+        cacheControl: "3600",
+        upsert: false,
+      });
 
-    const publicUrl = `/uploads/${safeFilename}`;
+    if (uploadError) {
+      console.error("Supabase Storage upload error:", uploadError);
+
+      return NextResponse.json(
+        { error: "Failed to upload image." },
+        { status: 500 }
+      );
+    }
+
+    const { data } = supabaseAdmin.storage
+      .from(BUCKET_NAME)
+      .getPublicUrl(storagePath);
 
     return NextResponse.json({
       success: true,
-      url: publicUrl,
+      url: data.publicUrl,
       filename: safeFilename,
     });
-  } catch {
+  } catch (error) {
+    console.error("Image upload failed:", error);
+
     return NextResponse.json(
-      { error: "Failed to store image artifact." },
+      { error: "Failed to process image upload." },
       { status: 500 }
     );
   }

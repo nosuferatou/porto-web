@@ -14,6 +14,13 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     ".agents/**",
     "prisma/seed.js",
+    // Superseded by .mjs equivalents — kept for reference only.
+    "scripts/create-admin.js",
+    "scripts/reset-admin.js",
+    "scripts/reset-admin-password.js",
+    "scripts/create-admin.cjs",
+    "scripts/reset-admin.cjs",
+    "scripts/reset-admin-password.cjs",
   ]),
 ]);
 

@@ -25,7 +25,9 @@ export const InformationSection: React.FC<InformationSectionProps> = ({
             cornerStuds
             className="w-48 sm:w-56 md:w-full max-w-[280px]"
           >
-            {profile.photoPlaceholder && profile.photoPlaceholder.startsWith("/") ? (
+            {profile.photoPlaceholder &&
+            (profile.photoPlaceholder.startsWith("/") ||
+            profile.photoPlaceholder.startsWith("https://")) ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={profile.photoPlaceholder}
