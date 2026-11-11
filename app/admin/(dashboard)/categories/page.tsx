@@ -58,6 +58,7 @@ export default function AdminCategoriesPage() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (adding) return;
     setAdding(true);
     setAlert(null);
     try {
@@ -92,6 +93,7 @@ export default function AdminCategoriesPage() {
   const cancelEdit = () => setEditingId(null);
 
   const handleSaveEdit = async (id: string) => {
+    if (saving) return;
     setSaving(true);
     setAlert(null);
     try {
@@ -117,6 +119,7 @@ export default function AdminCategoriesPage() {
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
+    if (deleting) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/admin/categories/${deleteTarget.id}`, {

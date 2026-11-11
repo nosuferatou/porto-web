@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { PixelCard, PixelButton } from "@/components/ui";
@@ -16,7 +16,7 @@ interface ContactItem {
 }
 
 // Supported platform options with stable iconKey values.
-// "Direct Channel" is intentionally excluded â€” it has its own section.
+// "Direct Channel" is intentionally excluded — it has its own section.
 const PLATFORM_OPTIONS: Array<{ value: string; iconKey: string }> = [
   { value: "GitHub", iconKey: "github" },
   { value: "GitLab", iconKey: "gitlab" },
@@ -58,13 +58,13 @@ export default function AdminContactsPage() {
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
 
-  // â”€â”€ Direct Channel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Direct Channel ────────────────────────────
   const [directEmail, setDirectEmail] = useState("");
   const [directEmailInput, setDirectEmailInput] = useState("");
   const [savingDirect, setSavingDirect] = useState(false);
   const [loadingDirect, setLoadingDirect] = useState(true);
 
-  // â”€â”€ Add form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Add form ───────────────────────────────
   const [addPlatform, setAddPlatform] = useState("GitHub");
   const [addCustomPlatform, setAddCustomPlatform] = useState("");
   const [addLabel, setAddLabel] = useState("");
@@ -72,7 +72,7 @@ export default function AdminContactsPage() {
   const [addOrder, setAddOrder] = useState(0);
   const [adding, setAdding] = useState(false);
 
-  // â”€â”€ Edit state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Edit state ──────────────────────────────
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPlatform, setEditPlatform] = useState("");
   const [editCustomPlatform, setEditCustomPlatform] = useState("");
@@ -82,7 +82,7 @@ export default function AdminContactsPage() {
   const [editOrder, setEditOrder] = useState(0);
   const [saving, setSaving] = useState(false);
 
-  // â”€â”€ Delete confirmation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Delete confirmation ─────────────────────────
   const [deleteTarget, setDeleteTarget] = useState<ContactItem | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -121,9 +121,10 @@ export default function AdminContactsPage() {
     setTimeout(() => setAlert(null), 5000);
   };
 
-  // â”€â”€ Save Direct Channel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Save Direct Channel ─────────────────────────
   const handleSaveDirect = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (savingDirect) return;
     setSavingDirect(true);
     setAlert(null);
     try {
@@ -146,9 +147,10 @@ export default function AdminContactsPage() {
     }
   };
 
-  // â”€â”€ Add conduit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Add conduit ─────────────────────────────
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (adding) return;
     setAdding(true);
     setAlert(null);
 
@@ -193,7 +195,7 @@ export default function AdminContactsPage() {
     }
   };
 
-  // â”€â”€ Inline edit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Inline edit ─────────────────────────────
   const startEdit = (c: ContactItem) => {
     setEditingId(c.id);
     // Determine if platform is a known option or "Other"
@@ -215,6 +217,7 @@ export default function AdminContactsPage() {
   const cancelEdit = () => setEditingId(null);
 
   const handleSaveEdit = async (id: string) => {
+    if (saving) return;
     setSaving(true);
     setAlert(null);
 
@@ -255,9 +258,10 @@ export default function AdminContactsPage() {
     }
   };
 
-  // â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─ Delete ────────────────────────────────
   const handleDelete = async () => {
     if (!deleteTarget) return;
+    if (deleting) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/admin/contacts/${deleteTarget.id}`, {
@@ -298,10 +302,10 @@ export default function AdminContactsPage() {
 
       <AdminAlert message={alert} />
 
-      {/* â”€â”€ Direct Channel Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ─ Direct Channel Section ──────────────────── */}
       <PixelCard variant="elevated" cornerStuds className="p-6">
         <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-accent-gold)] uppercase tracking-wider mb-1">
-          âœ¦ Direct Channel
+          ✦ Direct Channel
         </h2>
         <p className="font-mono text-[11px] text-[var(--color-text-ash)] mb-4">
           The primary contact email displayed in the public contact section.
@@ -349,7 +353,7 @@ export default function AdminContactsPage() {
         )}
       </PixelCard>
 
-      {/* â”€â”€ Forge New Conduit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ─ Forge New Conduit ────────────────────── */}
       <PixelCard variant="elevated" cornerStuds className="p-6">
         <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-accent-gold)] uppercase tracking-wider mb-4">
           + Forge New Conduit
@@ -472,7 +476,7 @@ export default function AdminContactsPage() {
         </form>
       </PixelCard>
 
-      {/* â”€â”€ Active Conduits Table â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ─ Active Conduits Table ──────────────────── */}
       <PixelCard variant="default" className="p-0 overflow-hidden">
         <div className="p-4 border-b border-[var(--color-border-gothic)]">
           <h2 className="font-pixel text-xs sm:text-sm text-[var(--color-text-bone)] uppercase tracking-wide">
@@ -597,7 +601,7 @@ export default function AdminContactsPage() {
                           rel="noopener noreferrer"
                           className="text-[var(--color-accent-gold)] hover:underline truncate block"
                         >
-                          {c.url} â†—
+                          {c.url} ↗
                         </a>
                       </td>
                       <td className="p-3 text-right whitespace-nowrap space-x-1">

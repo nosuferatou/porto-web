@@ -3,25 +3,28 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { PixelCard, PixelFrame, PixelBadge, PixelButton, GothicDivider } from "@/components/ui";
-import { postsData, Post } from "@/lib/data";
+import { Post } from "@/lib/data";
 import { PixelExternalIcon } from "@/components/icons";
 
-const categories = [
-  "All",
-  "Web Engineering",
-  "Pixel Art",
-  "UI/UX Design",
-  "Game Dev",
-] as const;
+interface ArchiveCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 interface PostsArchiveViewProps {
   initialPosts?: Post[];
+  categories?: ArchiveCategory[];
 }
 
 export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
-  initialPosts = postsData,
+  initialPosts = [],
+  categories = [],
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  // Build the filter list dynamically: "All" + CMS-managed categories
+  const categoryFilters: string[] = ["All", ...categories.map((c) => c.name)];
 
   const filteredPosts: Post[] =
     selectedCategory === "All"
@@ -49,7 +52,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
 
       {/* Category Filter Pills */}
       <div className="flex flex-wrap gap-2 mb-8 pb-1">
-        {categories.map((category) => {
+        {categoryFilters.map((category) => {
           const isSelected = selectedCategory === category;
           const count =
             category === "All"
@@ -75,7 +78,18 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
       </div>
 
       {/* Posts Grid */}
-      {filteredPosts.length > 0 ? (
+      {initialPosts.length === 0 ? (
+        /* Global empty state — no posts exist at all */
+        <PixelCard variant="elevated" cornerStuds className="text-center py-16 px-6">
+          <div className="font-pixel text-2xl text-[var(--color-accent-gold)] mb-3">✦</div>
+          <h2 className="font-pixel text-base text-[var(--color-text-bone)] uppercase tracking-wider mb-2">
+            The Codex Awaits Its First Entry
+          </h2>
+          <p className="font-sans text-xs sm:text-sm text-[var(--color-text-ash)] max-w-md mx-auto">
+            No manuscripts have been inscribed yet. Create your first post from the admin dashboard to populate this archive.
+          </p>
+        </PixelCard>
+      ) : filteredPosts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.map((post) => (
             <PixelCard

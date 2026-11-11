@@ -39,6 +39,7 @@ export default function AdminSetupForm() {
       return;
     }
 
+    if (loading) return;
     setLoading(true);
     try {
       const res = await fetch("/api/auth/setup", {

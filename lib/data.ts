@@ -26,7 +26,7 @@ export interface Post {
   title: string;
   slug: string;
   summary: string;
-  category: "Web Engineering" | "Pixel Art" | "UI/UX Design" | "Game Dev";
+  category: string;
   date: string;
   tags: string[];
   role: string;

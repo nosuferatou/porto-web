@@ -21,6 +21,12 @@ export default async function PostsPage() {
       orderBy: { createdAt: "desc" },
     })
     .catch(() => []);
+  const dbCategories = await prisma.category
+    .findMany({
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, slug: true },
+    })
+    .catch(() => []);
 
   const posts: Post[] | undefined =
     dbPosts && dbPosts.length > 0
@@ -43,7 +49,7 @@ export default async function PostsPage() {
             title: p.title,
             slug: p.slug,
             summary: p.summary,
-            category: p.category as Post["category"],
+            category: p.category,
             date: p.createdAt.toLocaleDateString("en-US", {
               month: "short",
               year: "numeric",
@@ -64,7 +70,10 @@ export default async function PostsPage() {
     <>
       <Navbar profileName={dbProfile?.name} />
       <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 w-full py-8">
-        <PostsArchiveView initialPosts={posts} />
+        <PostsArchiveView
+          initialPosts={posts}
+          categories={dbCategories}
+        />
       </main>
     </>
   );

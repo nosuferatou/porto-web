@@ -53,7 +53,7 @@ export const InformationSection: React.FC<InformationSectionProps> = ({
           <div className="mt-4 w-full max-w-[280px] mx-auto md:mx-0 px-3 py-2 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] flex items-center gap-2 pixel-shadow-sm">
             <span
               aria-hidden="true"
-              className="w-2 h-2 bg-[#22C55E] shrink-0 pixelated"
+              className={`w-2 h-2 shrink-0 pixelated ${profile.status === "Dead" ? "bg-[#E05368]" : profile.status === "Sleeping" ? "bg-[#8A8397]" : profile.status === "Busy" ? "bg-[#F59E0B]" : profile.status === "AFK" ? "bg-[#8A8397]" : profile.status === "Respawning" ? "bg-[#C9A24B]" : "bg-[#22C55E]"}`}
             />
             <span className="font-mono text-[11px] text-[var(--color-text-ash)] truncate">
               {profile.status}

@@ -48,6 +48,7 @@ export default function AdminPostsListPage() {
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
+    if (deleting) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/admin/posts/${deleteTarget.id}`, {

@@ -158,6 +158,7 @@ export default function AdminSkillsPage() {
   // ── Add submit ────────────────────────────────────────────────────────────
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (adding) return;
     setAdding(true);
     setAlert(null);
 
@@ -253,6 +254,7 @@ export default function AdminSkillsPage() {
 
   // ── Save edit ─────────────────────────────────────────────────────────────
   const handleSaveEdit = async (id: string) => {
+    if (saving) return;
     setSaving(true);
     setAlert(null);
 
@@ -299,6 +301,7 @@ export default function AdminSkillsPage() {
   // ── Delete ────────────────────────────────────────────────────────────────
   const handleDelete = async () => {
     if (!deleteTarget) return;
+    if (deleting) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/admin/skills/${deleteTarget.id}`, {

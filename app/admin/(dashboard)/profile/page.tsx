@@ -25,6 +25,15 @@ const inputCls =
 const labelCls =
   "block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1";
 
+const AVAILABILITY_OPTIONS = [
+  "Alive",
+  "Sleeping",
+  "Busy",
+  "AFK",
+  "Respawning",
+  "Dead",
+];
+
 export default function AdminProfilePage() {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -103,6 +112,7 @@ export default function AdminProfilePage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (saving) return;
     setSaving(true);
     setAlert(null);
 
@@ -264,17 +274,21 @@ export default function AdminProfilePage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label htmlFor="profile-status" className={labelCls}>Availability</label>
-                <CharCount value={status} max={150} />
               </div>
-              <input
+              <select
                 id="profile-status"
-                type="text"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                placeholder="e.g. Available for new projects"
-                maxLength={150}
                 className={inputCls}
-              />
+              >
+                {/* Preserve a stored value that doesn't match any predefined option */}
+                {!AVAILABILITY_OPTIONS.includes(status) && status && (
+                  <option value={status}>{status} (legacy)</option>
+                )}
+                {AVAILABILITY_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
             </div>
           </div>
 

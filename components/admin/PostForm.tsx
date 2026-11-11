@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const inputCls =
 const labelCls =
   "block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1";
 
-const GLYPH_OPTIONS = ["âš”ï¸", "ðŸ“–", "ðŸ›¡ï¸", "ðŸ°", "âš¡", "ðŸƒ", "âœ¦", "ðŸ”®", "ðŸ“œ", "ðŸ†"];
+const GLYPH_OPTIONS = ["⚔️", "📖", "🛡️", "🏰", "⚡", "🃏", "✦", "🔮", "📜", "🏆"];
 
 function CharCount({ value, max }: { value: string; max: number }) {
   const len = value.length;
@@ -103,7 +103,7 @@ export const PostForm: React.FC<PostFormProps> = ({
   const [featured, setFeatured] = useState<boolean>(
     initialData?.featured || false
   );
-  const [glyph, setGlyph] = useState(initialData?.glyph || "âš”ï¸");
+  const [glyph, setGlyph] = useState(initialData?.glyph || "⚔️");
 
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -212,6 +212,7 @@ export const PostForm: React.FC<PostFormProps> = ({
     overrideStatus?: "published" | "draft"
   ) => {
     e.preventDefault();
+    if (saving) return;
     setSaving(true);
     setAlert(null);
 
@@ -268,7 +269,7 @@ export const PostForm: React.FC<PostFormProps> = ({
       <AdminAlert message={alert} />
 
       <PixelCard variant="default" cornerStuds className="p-6 space-y-4">
-        {/* â”€â”€ Title & Slug â”€â”€ */}
+        {/* ── Title & Slug ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -309,7 +310,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* â”€â”€ Category, Glyph, Status â”€â”€ */}
+        {/* ── Category, Glyph, Status ── */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="post-category" className={labelCls}>
@@ -391,7 +392,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* â”€â”€ Thumbnail Upload â”€â”€ */}
+        {/* ── Thumbnail Upload ── */}
         <div className="p-4 bg-[#100D16] border border-[var(--color-border-gothic)] space-y-3">
           <label htmlFor="thumbnail-file" className="block font-pixel text-xs text-[var(--color-accent-gold)] uppercase tracking-wider">
             Thumbnail Image
@@ -422,7 +423,7 @@ export const PostForm: React.FC<PostFormProps> = ({
                 </p>
               )}
               <p className="font-mono text-[10px] text-[var(--color-text-ash)]">
-                Max 5MB Â· PNG, JPEG, WEBP, GIF. Stored in /public/uploads/.
+                Max 5MB · PNG, JPEG, WEBP, GIF. Stored in /public/uploads/.
               </p>
               {thumbnailUrl && (
                 <div className="flex items-center gap-2">
@@ -459,7 +460,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* â”€â”€ Summary â”€â”€ */}
+        {/* ── Summary ── */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label htmlFor="post-summary" className={labelCls}>
@@ -479,7 +480,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           />
         </div>
 
-        {/* â”€â”€ Markdown Content â”€â”€ */}
+        {/* ── Markdown Content ── */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label htmlFor="post-content" className={labelCls}>
@@ -498,7 +499,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           />
         </div>
 
-        {/* â”€â”€ Role & Tools â”€â”€ */}
+        {/* ── Role & Tools ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="post-role" className={labelCls}>
@@ -544,12 +545,12 @@ export const PostForm: React.FC<PostFormProps> = ({
               ))}
             </div>
             <p className="font-mono text-[10px] text-[var(--color-text-ash)] mt-1">
-              Manage available tools via Admin â†’ Skills.
+              Manage available tools via Admin → Skills.
             </p>
           </div>
         </div>
 
-        {/* â”€â”€ Tags & Links â”€â”€ */}
+        {/* ── Tags & Links ── */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="post-tags" className={labelCls}>
@@ -594,7 +595,7 @@ export const PostForm: React.FC<PostFormProps> = ({
           </div>
         </div>
 
-        {/* â”€â”€ Featured â”€â”€ */}
+        {/* ── Featured ── */}
         <label className="flex items-center gap-3 pt-2 cursor-pointer group">
           <input
             id="post-featured"
@@ -604,14 +605,14 @@ export const PostForm: React.FC<PostFormProps> = ({
             className="w-4 h-4 accent-[var(--color-accent-gold)] cursor-pointer"
           />
           <span className="font-pixel text-xs text-[var(--color-accent-gold)] uppercase tracking-wider select-none group-hover:text-[var(--color-accent-gold-bright)]">
-            â˜… Feature on Homepage
+            ★ Feature on Homepage
           </span>
           <span className="font-mono text-[10px] text-[var(--color-text-ash)]">
             (shows in the featured section of the public landing page)
           </span>
         </label>
 
-        {/* â”€â”€ Actions â”€â”€ */}
+        {/* ── Actions ── */}
         <div className="pt-4 border-t border-[var(--color-border-gothic)] flex flex-col sm:flex-row items-center justify-between gap-3">
           <PixelButton
             type="button"
@@ -619,11 +620,11 @@ export const PostForm: React.FC<PostFormProps> = ({
             size="sm"
             onClick={() => router.push("/admin/posts")}
           >
-            â€¹ Cancel
+            ‹ Cancel
           </PixelButton>
 
           <div className="flex items-center gap-3">
-            {/* Save as Draft â€” only shown for published posts or new posts */}
+            {/* Save as Draft — only shown for published posts or new posts */}
             {(status === "published" || !isEdit) && (
               <button
                 type="button"
