@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { PixelCard, PixelFrame, PixelBadge, PixelButton, GothicDivider } from "@/components/ui";
 import { PixelExternalIcon } from "@/components/icons";
-import { ToolIconStrip } from "@/components/shared/ToolIconStrip";
+import { ToolList } from "@/components/shared/ToolList";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -106,11 +106,11 @@ export default async function PostDetailPage({ params }: PostPageProps) {
             </div>
 
             <div>
-              <span className="block text-[var(--color-accent-gold)] uppercase text-[10px] tracking-widest mb-0.5">
+              <span className="block text-[var(--color-accent-gold)] uppercase text-[10px] tracking-widest mb-1.5">
                 Forged With
               </span>
               {tools.length > 0 ? (
-                <ToolIconStrip tools={tools} size={18} maxVisible={8} />
+                <ToolList tools={tools} size={16} />
               ) : (
                 <span className="text-[var(--color-text-ash)]">TypeScript</span>
               )}

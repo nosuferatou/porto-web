@@ -154,7 +154,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
                 </div>
                 {post.tools && post.tools.length > 0 && (
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[var(--color-accent-gold)] mr-0.5 shrink-0">Forged:</span>
+                    <span className="text-[var(--color-accent-gold)] mr-0.5 shrink-0">Forged With:</span>
                     <ToolIconStrip tools={post.tools} size={16} maxVisible={5} />
                   </div>
                 )}

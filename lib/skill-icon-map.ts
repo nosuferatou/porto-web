@@ -77,6 +77,13 @@ export const skillIconMap: Record<string, SkillIconComponent> = {
   // Generic fallback for custom tools
   custom:      PixelOtherIcon,
   other:       PixelOtherIcon,
+
+  // Normalised-name aliases for multi-word tool names.
+  // When a tool's display name (e.g. "Premiere Pro") is normalised to
+  // lowercase-alphanumeric for lookup (→ "premierepro"), these aliases
+  // ensure the correct icon is returned by ToolIconStrip / ToolList.
+  premierepro:    PixelPremiereIcon,    // "Premiere Pro"
+  davinciresolve: PixelDaVinciIcon,     // "DaVinci Resolve"
 };
 
 /**

@@ -110,9 +110,12 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[var(--color-border-gothic)] mt-auto">
-              {/* Tool icons */}
+              {/* Tool icons with label */}
               {post.tools && post.tools.length > 0 && (
-                <ToolIconStrip tools={post.tools} size={16} maxVisible={5} className="mb-1.5 w-full" />
+                <div className="flex items-center gap-1.5 w-full mb-1.5">
+                  <span className="font-mono text-[10px] text-[var(--color-accent-gold)] shrink-0">Forged With:</span>
+                  <ToolIconStrip tools={post.tools} size={16} maxVisible={5} />
+                </div>
               )}
               {post.tags.slice(0, 3).map((tag) => (
                 <span

@@ -50,13 +50,17 @@ export const PixelButton: React.FC<PixelButtonProps> = ({
 
   if (href && !disabled) {
     const isExternal = href.startsWith("http") || href.startsWith("//");
-    if (isExternal) {
+    // Hash-only links (e.g. "#posts") must render as plain <a> so the browser
+    // handles smooth scrolling natively. Next.js <Link> treats hash hrefs as
+    // route pushes, which can cause re-renders and make buttons feel unresponsive.
+    const isHashOnly = href.startsWith("#");
+    if (isExternal || isHashOnly) {
       return (
         <a
           href={href}
           onClick={onClick}
-          target={target ?? "_blank"}
-          rel={rel ?? "noopener noreferrer"}
+          target={isExternal ? (target ?? "_blank") : target}
+          rel={isExternal ? (rel ?? "noopener noreferrer") : rel}
           aria-label={ariaLabel}
           className={combinedClasses}
         >
