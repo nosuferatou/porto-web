@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { PixelCard, PixelFrame, PixelBadge, PixelButton, GothicDivider } from "@/components/ui";
 import { PixelExternalIcon } from "@/components/icons";
+import { ToolIconStrip } from "@/components/shared/ToolIconStrip";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -108,19 +109,23 @@ export default async function PostDetailPage({ params }: PostPageProps) {
               <span className="block text-[var(--color-accent-gold)] uppercase text-[10px] tracking-widest mb-0.5">
                 Forged With
               </span>
-              <span className="text-[var(--color-text-ash)]">{tools.join(", ") || "TypeScript"}</span>
+              {tools.length > 0 ? (
+                <ToolIconStrip tools={tools} size={18} maxVisible={8} />
+              ) : (
+                <span className="text-[var(--color-text-ash)]">TypeScript</span>
+              )}
             </div>
           </div>
         </header>
 
         {/* Visual Banner */}
-        <PixelFrame variant="stone" aspectRatio="video" className="w-full">
+        <PixelFrame variant="stone" aspectRatio={(post.imageRatio as "video" | "portrait" | "square" | "auto") || "video"} className="w-full">
           {post.thumbnailUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={post.thumbnailUrl}
               alt={post.title}
-              className="w-full h-full object-cover pixelated"
+              className={`w-full pixelated ${post.imageRatio === "auto" ? "h-auto block" : "h-full object-cover"}`}
             />
           ) : (
             <div className="w-full h-full min-h-[280px] bg-[#120E18] flex flex-col items-center justify-center p-8 text-center select-none">

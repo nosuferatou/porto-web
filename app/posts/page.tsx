@@ -62,6 +62,7 @@ export default async function PostsPage() {
             externalLink: p.externalLink || undefined,
             githubLink: p.githubLink || undefined,
             thumbnailUrl: p.thumbnailUrl || undefined,
+            imageRatio: (p.imageRatio as Post["imageRatio"]) || "video",
           };
         })
       : undefined;

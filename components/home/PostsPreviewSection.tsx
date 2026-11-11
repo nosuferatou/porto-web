@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PixelCard, PixelFrame, PixelBadge, PixelButton } from "@/components/ui";
 import { Post } from "@/lib/data";
 import { PixelExternalIcon } from "@/components/icons";
+import { ToolIconStrip } from "@/components/shared/ToolIconStrip";
 
 interface PostsPreviewSectionProps {
   posts?: Post[];
@@ -109,6 +110,10 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[var(--color-border-gothic)] mt-auto">
+              {/* Tool icons */}
+              {post.tools && post.tools.length > 0 && (
+                <ToolIconStrip tools={post.tools} size={16} maxVisible={5} className="mb-1.5 w-full" />
+              )}
               {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}

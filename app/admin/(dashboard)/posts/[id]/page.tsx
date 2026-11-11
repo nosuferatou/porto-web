@@ -55,6 +55,7 @@ export default async function AdminEditPostPage({
     status: post.status === "draft" ? "draft" : "published",
     featured: post.featured,
     glyph: post.glyph,
+    imageRatio: (post.imageRatio as "video" | "portrait" | "square" | "auto") || "video",
   };
 
   return (

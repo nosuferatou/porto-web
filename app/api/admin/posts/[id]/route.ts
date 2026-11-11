@@ -52,6 +52,7 @@ export async function PUT(
       status,
       featured,
       glyph,
+      imageRatio,
     } = body;
 
     // Validate external URLs — only http/https allowed
@@ -106,6 +107,7 @@ export async function PUT(
         ...(status && { status: status === "draft" ? "draft" : "published" }),
         ...(featured !== undefined && { featured: Boolean(featured) }),
         ...(glyph && { glyph: String(glyph).trim().slice(0, 10) }),
+        ...(imageRatio && ["video","portrait","square","auto"].includes(imageRatio) && { imageRatio }),
       },
     });
 

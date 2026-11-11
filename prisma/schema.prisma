@@ -58,6 +58,7 @@ model Post {
   status       String    @default("published") // 'draft' | 'published'
   featured     Boolean   @default(false)
   glyph        String    @default("⚔️")
+  imageRatio   String    @default("video")     // 'video' | 'portrait' | 'square' | 'auto'
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 

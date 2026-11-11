@@ -91,6 +91,7 @@ export default async function Home() {
             externalLink: p.externalLink || undefined,
             githubLink: p.githubLink || undefined,
             thumbnailUrl: p.thumbnailUrl || undefined,
+            imageRatio: (p.imageRatio as Post["imageRatio"]) || "video",
           };
         })
       : undefined;

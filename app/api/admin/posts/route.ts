@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
       status,
       featured,
       glyph,
+      imageRatio,
     } = body;
 
     if (!title || !summary || !category) {
@@ -116,6 +117,7 @@ export async function POST(req: NextRequest) {
         status: status === "draft" ? "draft" : "published",
         featured: Boolean(featured),
         glyph: String(glyph || "⚔️").trim().slice(0, 10),
+        imageRatio: ["video", "portrait", "square", "auto"].includes(imageRatio) ? imageRatio : "video",
       },
     });
 

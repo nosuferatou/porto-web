@@ -3,27 +3,7 @@
 import React, { useState } from "react";
 import { PixelCard } from "@/components/ui";
 import { Skill } from "@/lib/data";
-import {
-  PixelPhotoshopIcon,
-  PixelIllustratorIcon,
-  PixelFigmaIcon,
-  PixelVSCodeIcon,
-  PixelNextJSIcon,
-  PixelNodeJSIcon,
-  PixelKotlinIcon,
-} from "@/components/icons";
-
-// Map of built-in predefined iconKeys to their pixel icon components.
-// Skills with a custom iconUrl skip this map entirely and render an <img> instead.
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  photoshop: PixelPhotoshopIcon,
-  illustrator: PixelIllustratorIcon,
-  figma: PixelFigmaIcon,
-  vscode: PixelVSCodeIcon,
-  nextjs: PixelNextJSIcon,
-  nodejs: PixelNodeJSIcon,
-  kotlin: PixelKotlinIcon,
-};
+import { getSkillIcon } from "@/lib/skill-icon-map";
 
 /** Renders the icon for a skill: custom upload → <img>, predefined → pixel SVG, unknown → VS Code fallback. */
 function SkillIcon({
@@ -51,7 +31,7 @@ function SkillIcon({
     );
   }
 
-  const IconComponent = iconMap[iconKey] ?? PixelVSCodeIcon;
+  const IconComponent = getSkillIcon(iconKey);
   return <IconComponent size={size} />;
 }
 

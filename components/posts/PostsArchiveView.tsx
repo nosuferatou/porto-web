@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PixelCard, PixelFrame, PixelBadge, PixelButton, GothicDivider } from "@/components/ui";
 import { Post } from "@/lib/data";
 import { PixelExternalIcon } from "@/components/icons";
+import { ToolIconStrip } from "@/components/shared/ToolIconStrip";
 
 interface ArchiveCategory {
   id: string;
@@ -146,15 +147,17 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
               </p>
 
               {/* Metadata: Role & Tools */}
-              <div className="mb-4 py-2 border-y border-[var(--color-border-gothic)] text-xs font-mono space-y-1">
+              <div className="mb-4 py-2 border-y border-[var(--color-border-gothic)] text-xs font-mono space-y-1.5">
                 <div className="text-[var(--color-text-bone)]">
                   <span className="text-[var(--color-accent-gold)] mr-1">Role:</span>
                   {post.role}
                 </div>
-                <div className="text-[var(--color-text-ash)] truncate">
-                  <span className="text-[var(--color-accent-gold)] mr-1">Forged with:</span>
-                  {post.tools.join(", ")}
-                </div>
+                {post.tools && post.tools.length > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[var(--color-accent-gold)] mr-0.5 shrink-0">Forged:</span>
+                    <ToolIconStrip tools={post.tools} size={16} maxVisible={5} />
+                  </div>
+                )}
               </div>
 
               {/* Tags */}

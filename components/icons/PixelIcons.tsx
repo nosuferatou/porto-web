@@ -649,3 +649,225 @@ export const PixelOtherIcon: React.FC<IconProps> = ({ className = "", size = 20 
     <rect x="7" y="12" width="2" height="2" />
   </svg>
 );
+
+/* ─── Additional Skill / Technology Icons ────────────────────────────────────
+   Same pixel-art convention: 16×16 viewBox, <rect> elements, fill via color.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+export const PixelGitIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Git branch diamond mark */}
+    <rect x="7" y="2" width="2" height="2" fill="#F05032" />
+    <rect x="6" y="4" width="4" height="1" fill="#F05032" />
+    <rect x="4" y="5" width="8" height="2" fill="#F05032" />
+    <rect x="5" y="7" width="6" height="1" fill="#F05032" />
+    {/* Stem */}
+    <rect x="7" y="8" width="2" height="6" fill="#F05032" />
+    {/* Circle at bottom */}
+    <rect x="6" y="12" width="4" height="2" fill="#F05032" />
+  </svg>
+);
+
+export const PixelHTMLIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* HTML5 orange shield */}
+    <rect x="3" y="2" width="10" height="1" fill="#E44D26" />
+    <rect x="2" y="3" width="12" height="10" fill="#E44D26" />
+    <rect x="4" y="13" width="8" height="1" fill="#E44D26" />
+    <rect x="6" y="14" width="4" height="1" fill="#E44D26" />
+    {/* White "5" glyph */}
+    <rect x="5" y="5" width="5" height="1" fill="#FFFFFF" />
+    <rect x="5" y="6" width="2" height="2" fill="#FFFFFF" />
+    <rect x="5" y="8" width="5" height="1" fill="#FFFFFF" />
+    <rect x="8" y="9" width="2" height="2" fill="#FFFFFF" />
+    <rect x="5" y="11" width="5" height="1" fill="#FFFFFF" />
+  </svg>
+);
+
+export const PixelCSSIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* CSS3 blue shield */}
+    <rect x="3" y="2" width="10" height="1" fill="#264DE4" />
+    <rect x="2" y="3" width="12" height="10" fill="#264DE4" />
+    <rect x="4" y="13" width="8" height="1" fill="#264DE4" />
+    <rect x="6" y="14" width="4" height="1" fill="#264DE4" />
+    {/* White "3" glyph */}
+    <rect x="5" y="5" width="5" height="1" fill="#FFFFFF" />
+    <rect x="8" y="6" width="2" height="2" fill="#FFFFFF" />
+    <rect x="5" y="8" width="5" height="1" fill="#FFFFFF" />
+    <rect x="8" y="9" width="2" height="2" fill="#FFFFFF" />
+    <rect x="5" y="11" width="5" height="1" fill="#FFFFFF" />
+  </svg>
+);
+
+export const PixelJavaScriptIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Yellow background */}
+    <rect x="2" y="2" width="12" height="12" fill="#F7DF1E" />
+    {/* Black "JS" */}
+    <rect x="4" y="5" width="1" height="6" fill="#000000" />
+    <rect x="4" y="11" width="3" height="1" fill="#000000" />
+    <rect x="4" y="10" width="1" height="1" fill="#000000" />
+    <rect x="9" y="5" width="1" height="4" fill="#000000" />
+    <rect x="10" y="9" width="1" height="1" fill="#000000" />
+    <rect x="9" y="10" width="2" height="1" fill="#000000" />
+    <rect x="11" y="5" width="1" height="6" fill="#000000" />
+  </svg>
+);
+
+export const PixelTypeScriptIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Blue background */}
+    <rect x="2" y="2" width="12" height="12" fill="#3178C6" />
+    {/* White "TS" */}
+    <rect x="4" y="5" width="5" height="1" fill="#FFFFFF" />
+    <rect x="6" y="6" width="1" height="5" fill="#FFFFFF" />
+    <rect x="10" y="5" width="1" height="6" fill="#FFFFFF" />
+    <rect x="10" y="8" width="2" height="1" fill="#FFFFFF" />
+    <rect x="11" y="9" width="1" height="2" fill="#FFFFFF" />
+    <rect x="10" y="11" width="2" height="1" fill="#FFFFFF" />
+  </svg>
+);
+
+export const PixelReactIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* React atom: three orbital ellipses + center dot */}
+    {/* Horizontal ellipse */}
+    <rect x="2" y="7" width="12" height="2" fill="#61DAFB" />
+    {/* Diagonal ellipse 1 */}
+    <rect x="3" y="4" width="2" height="2" fill="#61DAFB" />
+    <rect x="5" y="6" width="2" height="2" fill="#61DAFB" />
+    <rect x="9" y="8" width="2" height="2" fill="#61DAFB" />
+    <rect x="11" y="10" width="2" height="2" fill="#61DAFB" />
+    {/* Diagonal ellipse 2 */}
+    <rect x="11" y="4" width="2" height="2" fill="#61DAFB" />
+    <rect x="9" y="6" width="2" height="2" fill="#61DAFB" />
+    <rect x="5" y="8" width="2" height="2" fill="#61DAFB" />
+    <rect x="3" y="10" width="2" height="2" fill="#61DAFB" />
+    {/* Center nucleus */}
+    <rect x="7" y="7" width="2" height="2" fill="#61DAFB" />
+  </svg>
+);
+
+export const PixelBlenderIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Blender stylized B with circular arc */}
+    <rect x="3" y="4" width="6" height="1" fill="#EA7600" />
+    <rect x="2" y="5" width="1" height="6" fill="#EA7600" />
+    <rect x="3" y="11" width="6" height="1" fill="#EA7600" />
+    <rect x="9" y="5" width="2" height="2" fill="#EA7600" />
+    <rect x="11" y="7" width="2" height="2" fill="#EA7600" />
+    <rect x="9" y="9" width="2" height="2" fill="#EA7600" />
+    <rect x="3" y="7" width="6" height="1" fill="#EA7600" />
+    <rect x="3" y="5" width="6" height="1" fill="#EA7600" />
+    <rect x="3" y="9" width="6" height="1" fill="#EA7600" />
+  </svg>
+);
+
+export const PixelAfterEffectsIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Dark purple background with Ae */}
+    <rect x="2" y="2" width="12" height="12" fill="#15121C" />
+    <rect x="2" y="2" width="12" height="1" fill="#9999FF" />
+    <rect x="2" y="13" width="12" height="1" fill="#9999FF" />
+    <rect x="2" y="2" width="1" height="12" fill="#9999FF" />
+    <rect x="13" y="2" width="1" height="12" fill="#9999FF" />
+    {/* 'A' */}
+    <rect x="4" y="5" width="1" height="6" fill="#9999FF" />
+    <rect x="5" y="5" width="2" height="1" fill="#9999FF" />
+    <rect x="6" y="6" width="1" height="1" fill="#9999FF" />
+    <rect x="4" y="8" width="3" height="1" fill="#9999FF" />
+    {/* 'e' */}
+    <rect x="9" y="7" width="2" height="1" fill="#9999FF" />
+    <rect x="8" y="8" width="1" height="2" fill="#9999FF" />
+    <rect x="10" y="8" width="1" height="1" fill="#9999FF" />
+    <rect x="9" y="10" width="2" height="1" fill="#9999FF" />
+    <rect x="8" y="9" width="3" height="1" fill="#9999FF" />
+  </svg>
+);
+
+export const PixelPremiereIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* Dark background with Pr */}
+    <rect x="2" y="2" width="12" height="12" fill="#15121C" />
+    <rect x="2" y="2" width="12" height="1" fill="#EA77FF" />
+    <rect x="2" y="13" width="12" height="1" fill="#EA77FF" />
+    <rect x="2" y="2" width="1" height="12" fill="#EA77FF" />
+    <rect x="13" y="2" width="1" height="12" fill="#EA77FF" />
+    {/* 'Pr' */}
+    <rect x="4" y="5" width="1" height="6" fill="#EA77FF" />
+    <rect x="5" y="5" width="2" height="1" fill="#EA77FF" />
+    <rect x="6" y="6" width="1" height="2" fill="#EA77FF" />
+    <rect x="5" y="8" width="2" height="1" fill="#EA77FF" />
+    <rect x="9" y="5" width="1" height="6" fill="#EA77FF" />
+    <rect x="10" y="6" width="1" height="1" fill="#EA77FF" />
+    <rect x="10" y="8" width="2" height="1" fill="#EA77FF" />
+    <rect x="11" y="9" width="1" height="2" fill="#EA77FF" />
+  </svg>
+);
+
+export const PixelDaVinciIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* DaVinci Resolve dark background + D mark */}
+    <rect x="2" y="2" width="12" height="12" fill="#1A1A2E" />
+    <rect x="2" y="2" width="12" height="1" fill="#FF6B35" />
+    <rect x="2" y="13" width="12" height="1" fill="#FF6B35" />
+    <rect x="2" y="2" width="1" height="12" fill="#FF6B35" />
+    <rect x="13" y="2" width="1" height="12" fill="#FF6B35" />
+    {/* Stylized "Dr" */}
+    <rect x="4" y="5" width="1" height="6" fill="#FF6B35" />
+    <rect x="5" y="5" width="3" height="1" fill="#FF6B35" />
+    <rect x="7" y="6" width="1" height="4" fill="#FF6B35" />
+    <rect x="5" y="10" width="3" height="1" fill="#FF6B35" />
+    <rect x="10" y="5" width="1" height="6" fill="#FF6B35" />
+    <rect x="11" y="6" width="1" height="1" fill="#FF6B35" />
+    <rect x="11" y="8" width="2" height="1" fill="#FF6B35" />
+    <rect x="12" y="9" width="1" height="2" fill="#FF6B35" />
+  </svg>
+);
+
+export const PixelPHPIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* PHP purple ellipse with white text */}
+    <rect x="2" y="5" width="12" height="1" fill="#8892BF" />
+    <rect x="1" y="6" width="14" height="4" fill="#8892BF" />
+    <rect x="2" y="10" width="12" height="1" fill="#8892BF" />
+    {/* 'PHP' letters in dark */}
+    <rect x="3" y="7" width="1" height="2" fill="#15121C" />
+    <rect x="4" y="7" width="1" height="1" fill="#15121C" />
+    <rect x="5" y="7" width="1" height="2" fill="#15121C" />
+    <rect x="7" y="7" width="1" height="2" fill="#15121C" />
+    <rect x="8" y="7" width="1" height="1" fill="#15121C" />
+    <rect x="9" y="7" width="1" height="2" fill="#15121C" />
+    <rect x="11" y="7" width="1" height="2" fill="#15121C" />
+    <rect x="12" y="7" width="1" height="1" fill="#15121C" />
+    <rect x="13" y="7" width="0" height="2" fill="#15121C" />
+  </svg>
+);
+
+export const PixelMySQLIcon: React.FC<IconProps> = ({ className = "", size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor"
+    className={`pixelated ${className}`} aria-hidden="true">
+    {/* MySQL dolphin silhouette in blue */}
+    <rect x="6" y="2" width="4" height="1" fill="#00758F" />
+    <rect x="5" y="3" width="6" height="2" fill="#00758F" />
+    <rect x="4" y="5" width="8" height="2" fill="#00758F" />
+    <rect x="5" y="7" width="6" height="2" fill="#00758F" />
+    <rect x="6" y="9" width="4" height="2" fill="#00758F" />
+    <rect x="4" y="11" width="2" height="2" fill="#00758F" />
+    <rect x="10" y="11" width="2" height="2" fill="#00758F" />
+    {/* Eye */}
+    <rect x="9" y="4" width="1" height="1" fill="#FFFFFF" />
+  </svg>
+);

@@ -33,6 +33,7 @@ export interface Post {
   tools: string[];
   featured: boolean;
   glyph: string;
+  imageRatio?: "video" | "portrait" | "square" | "auto";
   thumbnailUrl?: string;
   externalLink?: string;
   githubLink?: string;

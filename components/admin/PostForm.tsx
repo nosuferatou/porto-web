@@ -22,6 +22,7 @@ export interface PostFormData {
   status: "published" | "draft";
   featured: boolean;
   glyph: string;
+  imageRatio: "video" | "portrait" | "square" | "auto";
 }
 
 interface PostFormProps {
@@ -104,6 +105,9 @@ export const PostForm: React.FC<PostFormProps> = ({
     initialData?.featured || false
   );
   const [glyph, setGlyph] = useState(initialData?.glyph || "⚔️");
+  const [imageRatio, setImageRatio] = useState<"video" | "portrait" | "square" | "auto">(
+    (initialData?.imageRatio as "video" | "portrait" | "square" | "auto") || "video"
+  );
 
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -204,6 +208,7 @@ export const PostForm: React.FC<PostFormProps> = ({
       status: overrideStatus ?? status,
       featured,
       glyph,
+      imageRatio,
     };
   };
 
@@ -458,6 +463,38 @@ export const PostForm: React.FC<PostFormProps> = ({
               )}
             </div>
           </div>
+        </div>
+
+        {/* ── Image Presentation Ratio ── */}
+        <div>
+          <label className={labelCls}>Image Presentation</label>
+          <div className="flex flex-wrap gap-2 mt-1">
+            {(["video", "square", "portrait", "auto"] as const).map((ratio) => {
+              const labels: Record<string, string> = {
+                video:   "Landscape 16:9",
+                square:  "Square 1:1",
+                portrait:"Portrait 3:4",
+                auto:    "Original / Auto",
+              };
+              return (
+                <button
+                  key={ratio}
+                  type="button"
+                  onClick={() => setImageRatio(ratio)}
+                  className={`px-3 py-1.5 font-pixel text-[10px] uppercase tracking-wider border pixel-focus cursor-pointer ${
+                    imageRatio === ratio
+                      ? "bg-[var(--color-accent-blood)] text-[var(--color-text-bone)] border-[#B8283D]"
+                      : "bg-[var(--color-surface-obsidian)] text-[var(--color-text-ash)] border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:text-[var(--color-text-bone)]"
+                  }`}
+                >
+                  {labels[ratio]}
+                </button>
+              );
+            })}
+          </div>
+          <p className="font-mono text-[10px] text-[var(--color-text-ash)] mt-1">
+            Controls how the thumbnail is presented. &quot;Original / Auto&quot; avoids cropping portrait or square artwork.
+          </p>
         </div>
 
         {/* ── Summary ── */}
