@@ -22,7 +22,7 @@ export default async function Home() {
         .findMany({
           where: { status: "published", featured: true },
           orderBy: { createdAt: "desc" },
-          take: 3,
+          take: 9,
         })
         .catch(() => []),
       prisma.post.count({ where: { status: "published" } }).catch(() => 0),

@@ -22,7 +22,7 @@ const pixelify = Pixelify_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Dark Fantasy Portfolio",
+  title: "fernando's archive",
   description: "Personal portfolio website with Dark Fantasy Pixel Art aesthetic.",
 };
 
