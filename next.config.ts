@@ -11,6 +11,29 @@ import type { NextConfig } from "next";
  */
 const isDevelopment = process.env.NODE_ENV !== "production";
 
+/**
+ * Exact Supabase Storage origin used for direct browser uploads.
+ *
+ * Derived from the existing SUPABASE_URL so the CSP does not need a broad
+ * `*.supabase.co` wildcard. If the variable is unavailable at build time the
+ * policy stays locked to 'self' (uploads then fail closed rather than
+ * silently allowing an unknown origin).
+ */
+function getSupabaseOrigin(): string | null {
+  const raw = process.env.SUPABASE_URL;
+  if (!raw) return null;
+
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" ? url.origin : null;
+  } catch {
+    return null;
+  }
+}
+
+const supabaseOrigin = getSupabaseOrigin();
+const connectSrc = supabaseOrigin ? `'self' ${supabaseOrigin}` : "'self'";
+
 const securityHeaders = [
   // Prevent browsers from MIME-sniffing a response away from the declared
   // Content-Type. Defends against uploads being re-interpreted as scripts.
@@ -69,8 +92,9 @@ const securityHeaders = [
    *   — next/font/google downloads fonts at build time and serves them
    *     from the same origin; no external font CDN requests at runtime.
    *
-   * connect-src 'self'
-   *   — fetch/XHR calls go only to the same origin (API routes).
+   * connect-src 'self' + Supabase project origin
+   *   — fetch/XHR calls go to this origin's API routes, plus the exact
+   *     Supabase Storage origin for direct signed uploads.
    *
    * frame-ancestors 'self'
    *   — Modern replacement for X-Frame-Options; disallows embedding in
@@ -92,7 +116,7 @@ const securityHeaders = [
       `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,      "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self'",
-      "connect-src 'self'",
+      `connect-src ${connectSrc}`,
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",

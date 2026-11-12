@@ -3,6 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PixelCard, PixelButton, PixelFrame, PixelSpinner } from "@/components/ui";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
+import { uploadImage } from "@/lib/upload-client";
+import {
+  MAX_UPLOAD_BYTES,
+  MAX_UPLOAD_LABEL,
+  UPLOAD_TOO_LARGE_ERROR,
+} from "@/lib/upload-limits";
 
 function CharCount({ value, max }: { value: string; max: number }) {
   const len = value.length;
@@ -58,6 +64,8 @@ export default function AdminProfilePage() {
   const [uploading, setUploading] = useState(false);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
+  // Invalidates in-flight portrait uploads when a newer file is chosen or cleared.
+  const uploadGenerationRef = useRef(0);
 
   useEffect(() => {
     fetch("/api/admin/profile")
@@ -89,25 +97,33 @@ export default function AdminProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > MAX_UPLOAD_BYTES) {
+      showAlert(UPLOAD_TOO_LARGE_ERROR, "error");
+      e.target.value = "";
+      return;
+    }
+
     setUploading(true);
     setAlert(null);
 
-    const formData = new FormData();
-    formData.append("file", file);
+    const uploadGeneration = uploadGenerationRef.current + 1;
+    uploadGenerationRef.current = uploadGeneration;
 
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) {
-        showAlert(data.error || "Upload failed.", "error");
-      } else {
-        setPhotoUrl(data.url);
-        showAlert("Profile image uploaded.", "success");
-      }
-    } catch {
-      showAlert("Failed to upload image.", "error");
+      const url = await uploadImage(file);
+
+      if (uploadGeneration !== uploadGenerationRef.current) return;
+
+      setPhotoUrl(url);
+      showAlert("Profile image uploaded.", "success");
+    } catch (error) {
+      if (uploadGeneration !== uploadGenerationRef.current) return;
+
+      showAlert((error as Error).message || "Failed to upload image.", "error");
     } finally {
-      setUploading(false);
+      if (uploadGeneration === uploadGenerationRef.current) {
+        setUploading(false);
+      }
     }
   };
 
@@ -197,7 +213,7 @@ export default function AdminProfilePage() {
                 </p>
               )}
               <p className="font-mono text-[10px] text-[var(--color-text-ash)]">
-                Max 5MB · PNG, JPEG, WEBP, GIF.
+                Max {MAX_UPLOAD_LABEL} · PNG, JPEG, WEBP, GIF.
               </p>
               {photoUrl && (
                 <div className="flex items-center gap-2">
@@ -212,6 +228,8 @@ export default function AdminProfilePage() {
                   <button
                     type="button"
                     onClick={() => {
+                      uploadGenerationRef.current += 1;
+                      setUploading(false);
                       setPhotoUrl("");
                       if (avatarInputRef.current) avatarInputRef.current.value = "";
                     }}

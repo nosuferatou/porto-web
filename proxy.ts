@@ -35,7 +35,8 @@ export async function proxy(request: NextRequest) {
       pathname === "/admin" ||
       pathname.startsWith("/admin/") ||
       pathname.startsWith("/api/admin/") ||
-      pathname.startsWith("/api/auth/");
+      pathname.startsWith("/api/auth/") ||
+      pathname.startsWith("/api/uploads/");
 
     if (isAdminPath && hostname !== adminHost) {
       return new NextResponse(null, { status: 404 });
@@ -104,6 +105,7 @@ export const config = {
     "/admin/:path*",
     "/api/admin/:path*",
     "/api/auth/:path*",
+    "/api/uploads/:path*",
     "/posts/:path*",
   ],
 };

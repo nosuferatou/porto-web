@@ -4,6 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { PixelCard, PixelButton, PixelSpinner } from "@/components/ui";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
+import { uploadImage } from "@/lib/upload-client";
+import {
+  MAX_UPLOAD_BYTES,
+  MAX_UPLOAD_LABEL,
+  UPLOAD_TOO_LARGE_ERROR,
+} from "@/lib/upload-limits";
 
 // ─── Predefined tools ────────────────────────────────────────────────────────
 // Add tools here to extend the dropdown without code changes elsewhere.
@@ -61,12 +67,8 @@ const checkboxLabelCls =
 
 // ─── Icon upload helper ───────────────────────────────────────────────────────
 async function uploadIcon(file: File): Promise<string> {
-  const formData = new FormData();
-  formData.append("file", file);
-  const res = await fetch("/api/upload", { method: "POST", body: formData });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Upload failed.");
-  return data.url as string;
+  if (file.size > MAX_UPLOAD_BYTES) throw new Error(UPLOAD_TOO_LARGE_ERROR);
+  return uploadImage(file);
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -86,6 +88,7 @@ export default function AdminSkillsPage() {
   const [addUploading, setAddUploading] = useState(false);
   const [adding, setAdding] = useState(false);
   const addIconRef = useRef<HTMLInputElement>(null);
+  const addUploadGenerationRef = useRef(0);
 
   // ── Edit state ───────────────────────────────────────────────────────────
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -100,6 +103,7 @@ export default function AdminSkillsPage() {
   const [editUploading, setEditUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const editIconRef = useRef<HTMLInputElement>(null);
+  const editUploadGenerationRef = useRef(0);
 
   // ── Delete confirmation ──────────────────────────────────────────────────
   const [deleteTarget, setDeleteTarget] = useState<SkillItem | null>(null);
@@ -142,15 +146,26 @@ export default function AdminSkillsPage() {
   const handleAddIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const uploadGeneration = addUploadGenerationRef.current + 1;
+    addUploadGenerationRef.current = uploadGeneration;
     setAddUploading(true);
+
     try {
       const url = await uploadIcon(file);
+
+      if (uploadGeneration !== addUploadGenerationRef.current) return;
+
       setAddIconUrl(url);
       showAlert("Icon uploaded.", "success");
     } catch (err) {
+      if (uploadGeneration !== addUploadGenerationRef.current) return;
+
       showAlert((err as Error).message || "Icon upload failed.");
     } finally {
-      setAddUploading(false);
+      if (uploadGeneration === addUploadGenerationRef.current) {
+        setAddUploading(false);
+      }
       if (addIconRef.current) addIconRef.current.value = "";
     }
   };
@@ -239,15 +254,26 @@ export default function AdminSkillsPage() {
   const handleEditIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const uploadGeneration = editUploadGenerationRef.current + 1;
+    editUploadGenerationRef.current = uploadGeneration;
     setEditUploading(true);
+
     try {
       const url = await uploadIcon(file);
+
+      if (uploadGeneration !== editUploadGenerationRef.current) return;
+
       setEditIconUrl(url);
       showAlert("Icon uploaded.", "success");
     } catch (err) {
+      if (uploadGeneration !== editUploadGenerationRef.current) return;
+
       showAlert((err as Error).message || "Icon upload failed.");
     } finally {
-      setEditUploading(false);
+      if (uploadGeneration === editUploadGenerationRef.current) {
+        setEditUploading(false);
+      }
       if (editIconRef.current) editIconRef.current.value = "";
     }
   };
@@ -490,7 +516,7 @@ export default function AdminSkillsPage() {
                 htmlFor="add-icon-upload"
                 className="block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1"
               >
-                Custom Icon <span className="font-mono text-[var(--color-text-ash)] normal-case">(PNG or WEBP, max 5MB)</span>
+                Custom Icon <span className="font-mono text-[var(--color-text-ash)] normal-case">(PNG or WEBP, max {MAX_UPLOAD_LABEL})</span>
               </label>
               <div className="flex items-center gap-3">
                 <input

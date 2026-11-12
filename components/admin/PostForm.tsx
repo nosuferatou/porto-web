@@ -11,6 +11,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PixelCard, PixelButton, PixelFrame, PixelSpinner } from "@/components/ui";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
+import { uploadImage } from "@/lib/upload-client";
+import {
+  MAX_UPLOAD_BYTES,
+  MAX_UPLOAD_LABEL,
+  UPLOAD_TOO_LARGE_ERROR,
+} from "@/lib/upload-limits";
 
 export interface PostFormData {
   id?: string;
@@ -72,6 +78,7 @@ export const PostForm: React.FC<PostFormProps> = ({
   const thumbnailFileRef = useRef<HTMLInputElement>(null);
   // Invalidates in-flight thumbnail uploads when the create form is reset.
   const uploadGenerationRef = useRef(0);
+  const uploadAbortRef = useRef<AbortController | null>(null);
 
   const [title, setTitle] = useState(initialData?.title || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
@@ -130,6 +137,8 @@ export const PostForm: React.FC<PostFormProps> = ({
     if (isEdit) return;
 
     uploadGenerationRef.current += 1;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
     setTitle("");
     setSlug("");
     setSummary("");
@@ -212,30 +221,41 @@ export const PostForm: React.FC<PostFormProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setAlert({ text: UPLOAD_TOO_LARGE_ERROR, type: "error" });
+      e.target.value = "";
+      return;
+    }
+
     const uploadGeneration = uploadGenerationRef.current;
+    uploadAbortRef.current?.abort();
+    const controller = new AbortController();
+    uploadAbortRef.current = controller;
+
     setUploading(true);
     setAlert(null);
 
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
+      const url = await uploadImage(file, { signal: controller.signal });
+
       if (uploadGeneration !== uploadGenerationRef.current) return;
 
-      if (!res.ok) {
-        setAlert({ text: data.error || "Upload failed.", type: "error" });
-      } else {
-        setThumbnailUrl(data.url);
-        setAlert({ text: "Thumbnail uploaded.", type: "success" });
-      }
-    } catch {
+      setThumbnailUrl(url);
+      setAlert({ text: "Thumbnail uploaded.", type: "success" });
+    } catch (error) {
       if (uploadGeneration !== uploadGenerationRef.current) return;
-      setAlert({ text: "Failed to upload image relic.", type: "error" });
+      if ((error as Error).name === "AbortError") return;
+
+      setAlert({
+        text: (error as Error).message || "Failed to upload image relic.",
+        type: "error",
+      });
     } finally {
-      if (uploadGeneration === uploadGenerationRef.current) {
-        setUploading(false);
+      if (uploadAbortRef.current === controller) {
+        uploadAbortRef.current = null;
+        if (uploadGeneration === uploadGenerationRef.current) {
+          setUploading(false);
+        }
       }
     }
   };
@@ -509,7 +529,7 @@ export const PostForm: React.FC<PostFormProps> = ({
                 </div>
               )}
               <p className="font-mono text-[10px] text-[var(--color-text-ash)]">
-                Max 5MB · PNG, JPEG, WEBP, GIF. Stored in Supabase Storage.
+                Max {MAX_UPLOAD_LABEL} · PNG, JPEG, WEBP, GIF. Stored in Supabase Storage.
               </p>
               {thumbnailUrl && (
                 <div className="flex items-center gap-2">
