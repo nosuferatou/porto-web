@@ -36,7 +36,7 @@ export const InformationSection: React.FC<InformationSectionProps> = ({
               />
             ) : (
               <div className="w-full h-full min-h-[220px] bg-[#120E18] flex flex-col items-center justify-center p-6 text-center select-none relative group">
-                <div className="w-24 h-24 mb-3 border-2 border-[var(--color-border-subtle)] bg-[#0B0A10] flex items-center justify-center font-pixel text-4xl text-[var(--color-accent-gold)] pixel-shadow-sm group-hover:border-[var(--color-accent-gold)] transition-none">
+                <div className="w-24 h-24 mb-3 border-2 border-[var(--color-border-subtle)] bg-[#0B0A10] flex items-center justify-center font-pixel text-4xl text-[var(--color-accent-gold)] pixel-shadow-sm group-hover:border-[var(--color-accent-gold)] pixel-hover">
                   ⚔
                 </div>
                 <div className="font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-widest">

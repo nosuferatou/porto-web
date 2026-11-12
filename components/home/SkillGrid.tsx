@@ -68,7 +68,8 @@ export const SkillGrid: React.FC<SkillGridProps> = ({ skills = [] }) => {
               onFocus={() => setActiveSkill(skill)}
               onClick={() => setActiveSkill(skill)}
               aria-label={`${skill.name} - ${skill.category}`}
-              className={`p-3 bg-[var(--color-surface-obsidian)] border-2 transition-none pixel-focus pixel-press text-left flex flex-col items-center justify-center text-center group cursor-pointer ${
+              aria-pressed={isSelected}
+              className={`p-3 bg-[var(--color-surface-obsidian)] border-2 pixel-hover pixel-focus pixel-press text-left flex flex-col items-center justify-center text-center group cursor-pointer ${
                 isSelected
                   ? "border-[var(--color-accent-gold)] bg-[#1D1728] pixel-shadow-gold"
                   : "border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[#1A1524] pixel-shadow-sm"

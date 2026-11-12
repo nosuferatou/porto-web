@@ -1,4 +1,5 @@
 export * from "./PixelButton";
+export * from "./PixelSpinner";
 export * from "./PixelCard";
 export * from "./PixelFrame";
 export * from "./PixelBadge";

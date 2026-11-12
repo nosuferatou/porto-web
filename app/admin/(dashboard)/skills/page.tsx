@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { PixelCard, PixelButton } from "@/components/ui";
+import { PixelCard, PixelButton, PixelSpinner } from "@/components/ui";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
 
@@ -48,13 +48,13 @@ interface SkillItem {
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 const inputCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-hover";
 
 const selectCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none cursor-pointer";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none cursor-pointer pixel-hover";
 
 const actionBtnCls =
-  "px-2.5 py-1 font-pixel text-[10px] uppercase tracking-wider pixel-focus cursor-pointer border";
+  "px-2.5 py-1 font-pixel text-[10px] uppercase tracking-wider pixel-focus pixel-hover cursor-pointer border";
 
 const checkboxLabelCls =
   "flex items-center gap-2 font-mono text-xs text-[var(--color-text-bone)] cursor-pointer select-none";
@@ -503,7 +503,10 @@ export default function AdminSkillsPage() {
                   className="text-xs font-mono text-[var(--color-text-bone)] file:mr-3 file:px-3 file:py-1.5 file:border file:border-[var(--color-accent-gold)] file:bg-[#100D16] file:text-[var(--color-accent-gold)] file:font-pixel file:text-[10px] file:uppercase file:cursor-pointer cursor-pointer disabled:opacity-50"
                 />
                 {addUploading && (
-                  <span className="font-mono text-xs text-[var(--color-text-ash)]">Uploading...</span>
+                  <span className="font-mono text-xs text-[var(--color-text-ash)] inline-flex items-center gap-1.5">
+                    <PixelSpinner />
+                    Uploading...
+                  </span>
                 )}
                 {addIconUrl && !addUploading && (
                   <div className="flex items-center gap-2">
@@ -540,7 +543,7 @@ export default function AdminSkillsPage() {
           </div>
 
           <div className="flex justify-end">
-            <PixelButton type="submit" variant="primary" size="sm" disabled={adding}>
+            <PixelButton type="submit" variant="primary" size="sm" disabled={adding} loading={adding}>
               {adding ? "Forging..." : "Inscribe Discipline"}
             </PixelButton>
           </div>
@@ -674,7 +677,10 @@ export default function AdminSkillsPage() {
                                 aria-label="Upload custom icon"
                               />
                               {editUploading && (
-                                <span className="font-mono text-[10px] text-[var(--color-text-ash)]">Uploading…</span>
+                                <span className="font-mono text-[10px] text-[var(--color-text-ash)] inline-flex items-center gap-1.5">
+                                  <PixelSpinner />
+                                  Uploading…
+                                </span>
                               )}
                             </div>
                           ) : (
@@ -718,14 +724,17 @@ export default function AdminSkillsPage() {
                             type="button"
                             onClick={() => handleSaveEdit(s.id)}
                             disabled={saving}
-                            className={`${actionBtnCls} bg-[#0E1F14] border-[#22C55E] text-[#4ADE80] hover:bg-[#132A1A] disabled:opacity-50`}
+                            aria-busy={saving || undefined}
+                            className={`${actionBtnCls} inline-flex items-center justify-center gap-1.5 min-w-[92px] bg-[#0E1F14] border-[#22C55E] text-[#4ADE80] hover:bg-[#132A1A] disabled:opacity-50`}
                           >
-                            {saving ? "..." : "Save"}
+                            {saving && <PixelSpinner />}
+                            {saving ? "Saving..." : "Save"}
                           </button>
                           <button
                             type="button"
                             onClick={cancelEdit}
-                            className={`${actionBtnCls} bg-transparent border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)]`}
+                            disabled={saving}
+                            className={`${actionBtnCls} bg-transparent border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] disabled:opacity-50`}
                           >
                             Cancel
                           </button>
@@ -810,6 +819,7 @@ export default function AdminSkillsPage() {
         confirmLabel={deleting ? "Banishing..." : "Banish"}
         cancelLabel="Keep"
         variant="danger"
+        busy={deleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />

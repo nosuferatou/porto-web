@@ -39,6 +39,14 @@ export default function AdminPostsListPage() {
 
   useEffect(() => {
     loadPosts();
+
+    // PostForm leaves a one-shot flash message when a manuscript is saved.
+    const flash = sessionStorage.getItem("cms:posts-flash");
+    if (flash) {
+      sessionStorage.removeItem("cms:posts-flash");
+      setAlert({ text: flash, type: "success" });
+      setTimeout(() => setAlert(null), 5000);
+    }
   }, []);
 
   const showAlert = (text: string, type: AdminAlertMessage["type"] = "error") => {
@@ -118,7 +126,7 @@ export default function AdminPostsListPage() {
     <button
       type="button"
       onClick={() => setFilter(value)}
-      className={`px-3 py-1 font-pixel text-xs uppercase tracking-wide pixel-focus cursor-pointer ${
+      className={`px-3 py-1 font-pixel text-xs uppercase tracking-wide pixel-focus pixel-hover cursor-pointer ${
         filter === value
           ? "bg-[#231A30] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)]"
           : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)]"
@@ -219,7 +227,7 @@ export default function AdminPostsListPage() {
                           href={`/posts/${post.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-2.5 py-1 bg-transparent border border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:border-[var(--color-border-subtle)] hover:text-[var(--color-text-bone)] font-pixel text-[10px] uppercase tracking-wider pixel-focus inline-block"
+                          className="px-2.5 py-1 bg-transparent border border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:border-[var(--color-border-subtle)] hover:text-[var(--color-text-bone)] font-pixel text-[10px] uppercase tracking-wider pixel-focus pixel-hover inline-block"
                           aria-label={`View ${post.title} on public site`}
                         >
                           View ↗
@@ -227,14 +235,14 @@ export default function AdminPostsListPage() {
                       )}
                       <Link
                         href={`/admin/posts/${post.id}`}
-                        className="px-2.5 py-1 bg-[#100D16] border border-[var(--color-border-subtle)] text-[var(--color-accent-gold)] hover:border-[var(--color-accent-gold)] font-pixel text-[11px] uppercase tracking-wider pixel-focus inline-block"
+                        className="px-2.5 py-1 bg-[#100D16] border border-[var(--color-border-subtle)] text-[var(--color-accent-gold)] hover:border-[var(--color-accent-gold)] font-pixel text-[11px] uppercase tracking-wider pixel-focus pixel-hover inline-block"
                       >
                         Edit
                       </Link>
                       <button
                         type="button"
                         onClick={() => setDeleteTarget(post)}
-                        className="px-2.5 py-1 bg-[#1A0A0E] border border-[var(--color-accent-blood)] text-[#E05368] hover:bg-[var(--color-accent-blood)] hover:text-[var(--color-text-bone)] font-pixel text-[10px] uppercase tracking-wider pixel-focus cursor-pointer"
+                        className="px-2.5 py-1 bg-[#1A0A0E] border border-[var(--color-accent-blood)] text-[#E05368] hover:bg-[var(--color-accent-blood)] hover:text-[var(--color-text-bone)] font-pixel text-[10px] uppercase tracking-wider pixel-focus pixel-hover cursor-pointer"
                       >
                         Purge
                       </button>
@@ -255,6 +263,7 @@ export default function AdminPostsListPage() {
         confirmLabel={deleting ? "Purging..." : "Purge"}
         cancelLabel="Keep"
         variant="danger"
+        busy={deleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />

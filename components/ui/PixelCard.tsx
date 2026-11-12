@@ -29,7 +29,7 @@ export const PixelCard: React.FC<PixelCardProps> = ({
   as: Component = "div",
 }) => {
   const interactiveClasses = interactive
-    ? "transition-none hover:-translate-y-1 hover:border-[var(--color-accent-gold)] hover:shadow-[5px_5px_0px_0px_#000000] cursor-pointer"
+    ? "pixel-lift hover:-translate-y-1 hover:border-[var(--color-accent-gold)] focus-within:border-[var(--color-accent-gold)] hover:shadow-[5px_5px_0px_0px_#000000] focus-within:shadow-[5px_5px_0px_0px_#000000]"
     : "";
 
   return (

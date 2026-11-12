@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { PixelSpinner } from "./PixelSpinner";
 
 export interface PixelButtonProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ export interface PixelButtonProps {
   href?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   disabled?: boolean;
+  loading?: boolean;
   type?: "button" | "submit" | "reset";
   className?: string;
   target?: string;
@@ -37,6 +39,7 @@ export const PixelButton: React.FC<PixelButtonProps> = ({
   href,
   onClick,
   disabled = false,
+  loading = false,
   type = "button",
   className = "",
   target,
@@ -44,11 +47,18 @@ export const PixelButton: React.FC<PixelButtonProps> = ({
   "aria-label": ariaLabel,
 }) => {
   const baseClasses =
-    "inline-flex items-center justify-center font-pixel uppercase select-none transition-none pixel-press pixel-focus disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none cursor-pointer";
+    "inline-flex items-center justify-center gap-2 font-pixel uppercase select-none pixel-hover pixel-press pixel-focus disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none cursor-pointer";
 
   const combinedClasses = `${baseClasses} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
+  const isDisabled = disabled || loading;
+  const content = (
+    <>
+      {loading && <PixelSpinner />}
+      {children}
+    </>
+  );
 
-  if (href && !disabled) {
+  if (href && !isDisabled) {
     const isExternal = href.startsWith("http") || href.startsWith("//");
     // Hash-only links (e.g. "#posts") must render as plain <a> so the browser
     // handles smooth scrolling natively. Next.js <Link> treats hash hrefs as
@@ -64,13 +74,13 @@ export const PixelButton: React.FC<PixelButtonProps> = ({
           aria-label={ariaLabel}
           className={combinedClasses}
         >
-          {children}
+          {content}
         </a>
       );
     }
     return (
       <Link href={href} onClick={onClick} aria-label={ariaLabel} className={combinedClasses}>
-        {children}
+        {content}
       </Link>
     );
   }
@@ -79,11 +89,12 @@ export const PixelButton: React.FC<PixelButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={isDisabled}
       aria-label={ariaLabel}
+      aria-busy={loading || undefined}
       className={combinedClasses}
     >
-      {children}
+      {content}
     </button>
   );
 };

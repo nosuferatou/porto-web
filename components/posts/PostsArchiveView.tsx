@@ -65,7 +65,8 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
               key={category}
               type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`min-h-[44px] px-3 py-1.5 font-pixel text-xs uppercase tracking-wider transition-none pixel-focus pixel-press cursor-pointer flex items-center gap-2 ${
+              aria-pressed={isSelected}
+              className={`min-h-[44px] px-3 py-1.5 font-pixel text-xs uppercase tracking-wider pixel-hover pixel-focus pixel-press cursor-pointer flex items-center gap-2 ${
                 isSelected
                   ? "bg-[var(--color-accent-blood)] text-[var(--color-text-bone)] border-2 border-[#B8283D] pixel-shadow-sm"
                   : "bg-[var(--color-surface-obsidian)] text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] border border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)]"
@@ -115,7 +116,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
                     className="w-full h-full object-cover pixelated"
                   />
                 ) : (
-                  <div className="w-full h-full min-h-[140px] flex flex-col items-center justify-center p-4 text-center select-none group-hover:scale-105 transition-none">
+                  <div className="w-full h-full min-h-[140px] flex flex-col items-center justify-center p-4 text-center select-none group-hover:scale-105 transition-transform duration-150">
                     <span className="text-3xl mb-1">{post.glyph}</span>
                     <span className="font-mono text-[10px] text-[var(--color-accent-gold)] tracking-widest uppercase">
                       {post.category}
@@ -135,7 +136,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
               </div>
 
               {/* Title */}
-              <h2 className="font-pixel text-sm sm:text-base text-[var(--color-text-bone)] uppercase group-hover:text-[var(--color-accent-gold)] tracking-wide mb-2">
+              <h2 className="font-pixel text-sm sm:text-base text-[var(--color-text-bone)] uppercase group-hover:text-[var(--color-accent-gold)] pixel-hover tracking-wide mb-2">
                 <Link href={`/posts/${post.slug}`} className="pixel-focus">
                   {post.title}
                 </Link>
@@ -176,7 +177,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
               <div className="pt-3 border-t border-[var(--color-border-gothic)] flex items-center justify-between mt-auto">
                 <Link
                   href={`/posts/${post.slug}`}
-                  className="font-pixel text-[11px] text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] flex items-center gap-1 uppercase tracking-wider pixel-focus"
+                  className="font-pixel text-[11px] text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] pixel-hover flex items-center gap-1 uppercase tracking-wider pixel-focus"
                 >
                   <span>Read Lore</span>
                   <PixelExternalIcon size={12} />
@@ -187,7 +188,7 @@ export const PostsArchiveView: React.FC<PostsArchiveViewProps> = ({
                     href={post.externalLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] pixel-focus"
+                    className="font-mono text-xs text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] pixel-hover pixel-focus"
                   >
                     Demo ↗
                   </a>

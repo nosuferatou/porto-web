@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { PixelButton } from "@/components/ui";
@@ -26,8 +26,11 @@ function isActive(href: string, pathname: string, exact = false) {
 export const AdminHeader: React.FC<AdminHeaderProps> = ({ userEmail }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    if (loggingOut) return;
+    setLoggingOut(true);
     try {
       await fetch("/api/auth/logout", { method: "POST" });
     } catch {
@@ -65,7 +68,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ userEmail }) => {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`px-3 py-1.5 font-pixel text-xs uppercase tracking-wide pixel-focus transition-none ${
+                  className={`px-3 py-1.5 font-pixel text-xs uppercase tracking-wide pixel-focus pixel-hover ${
                     active
                       ? "bg-[#231A30] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)]"
                       : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] hover:bg-[#1A1424]"
@@ -88,9 +91,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ userEmail }) => {
             variant="ghost"
             size="sm"
             onClick={handleLogout}
+            loading={loggingOut}
             aria-label="Log out of admin panel"
           >
-            Logout
+            {loggingOut ? "Leaving..." : "Logout"}
           </PixelButton>
         </div>
       </div>
@@ -107,10 +111,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ userEmail }) => {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`px-3 py-1.5 font-pixel text-[11px] uppercase tracking-wide shrink-0 pixel-focus ${
+              className={`px-3 py-1.5 font-pixel text-[11px] uppercase tracking-wide shrink-0 pixel-focus pixel-hover ${
                 active
                   ? "bg-[#231A30] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)]"
-                  : "text-[var(--color-text-ash)]"
+                  : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)]"
               }`}
             >
               {item.label}

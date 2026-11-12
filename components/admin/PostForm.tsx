@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { PixelCard, PixelButton, PixelFrame } from "@/components/ui";
+import { PixelCard, PixelButton, PixelFrame, PixelSpinner } from "@/components/ui";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
 
 export interface PostFormData {
@@ -37,7 +37,7 @@ interface PostFormProps {
 }
 
 const inputCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-hover";
 
 const labelCls =
   "block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1";
@@ -120,6 +120,7 @@ export const PostForm: React.FC<PostFormProps> = ({
   );
 
   const [saving, setSaving] = useState(false);
+  const [saveIntent, setSaveIntent] = useState<"publish" | "draft">("publish");
   const [uploading, setUploading] = useState(false);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
 
@@ -147,6 +148,7 @@ export const PostForm: React.FC<PostFormProps> = ({
     setSaving(false);
     setUploading(false);
     setAlert(null);
+    setSaveIntent("publish");
 
     // File inputs are uncontrolled, so state updates do not clear them.
     if (thumbnailFileRef.current) {
@@ -270,6 +272,7 @@ export const PostForm: React.FC<PostFormProps> = ({
   ) => {
     e.preventDefault();
     if (saving) return;
+    setSaveIntent(overrideStatus === "draft" ? "draft" : "publish");
     setSaving(true);
     setAlert(null);
 
@@ -308,6 +311,12 @@ export const PostForm: React.FC<PostFormProps> = ({
 
       setSaving(false);
       if (!isEdit) resetCreateForm();
+      sessionStorage.setItem(
+        "cms:posts-flash",
+        isEdit
+          ? "Manuscript updated in the Codex."
+          : "Manuscript published to the Codex."
+      );
       router.push("/admin/posts");
       router.refresh();
     } catch {
@@ -744,9 +753,11 @@ export const PostForm: React.FC<PostFormProps> = ({
                 type="button"
                 onClick={handleSaveAsDraft}
                 disabled={saving}
-                className="px-3 py-1.5 bg-transparent text-[var(--color-text-ash)] border-2 border-[var(--color-border-gothic)] hover:border-[var(--color-border-subtle)] hover:text-[var(--color-text-bone)] font-pixel text-xs uppercase tracking-wide pixel-press pixel-focus disabled:opacity-50 cursor-pointer"
+                aria-busy={(saving && saveIntent === "draft") || undefined}
+                className="inline-flex items-center justify-center gap-2 min-w-[132px] px-3 py-1.5 bg-transparent text-[var(--color-text-ash)] border-2 border-[var(--color-border-gothic)] hover:border-[var(--color-border-subtle)] hover:text-[var(--color-text-bone)] font-pixel text-xs uppercase tracking-wide pixel-hover pixel-press pixel-focus disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
               >
-                {saving ? "..." : "Save as Draft"}
+                {saving && saveIntent === "draft" && <PixelSpinner />}
+                {saving && saveIntent === "draft" ? "Saving..." : "Save as Draft"}
               </button>
             )}
 
@@ -755,9 +766,12 @@ export const PostForm: React.FC<PostFormProps> = ({
               variant="primary"
               size="md"
               disabled={saving}
+              loading={saving && saveIntent === "publish"}
             >
-              {saving
-                ? "Inscribing..."
+              {saving && saveIntent === "publish"
+                ? isEdit
+                  ? "Updating..."
+                  : "Publishing..."
                 : isEdit
                 ? "Update Manuscript"
                 : "Publish Manuscript"}

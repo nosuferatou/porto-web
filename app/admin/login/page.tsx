@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@obsidian.relic"
-                className="w-full px-3.5 py-2.5 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm transition-none"
+                className="w-full px-3.5 py-2.5 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm pixel-hover"
               />
             </div>
 
@@ -121,7 +121,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full px-3.5 py-2.5 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm transition-none"
+                className="w-full px-3.5 py-2.5 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm pixel-hover"
               />
             </div>
 
@@ -131,6 +131,7 @@ export default function AdminLoginPage() {
                 variant="primary"
                 size="md"
                 disabled={loading}
+                loading={loading}
                 className="w-full"
               >
                 {loading ? "Unlocking Ward..." : "Dispel Ward & Enter"}

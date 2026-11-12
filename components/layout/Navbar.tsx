@@ -117,11 +117,11 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           className="flex items-center gap-2.5 group pixel-focus py-1"
           aria-label={`Home - ${firstName} Portfolio`}
         >
-          <div className="w-8 h-8 bg-[#100D16] border-2 border-[var(--color-accent-gold)] flex items-center justify-center font-pixel text-xs text-[var(--color-accent-gold)] group-hover:bg-[#1E1929] transition-none pixel-shadow-sm">
+          <div className="w-8 h-8 bg-[#100D16] border-2 border-[var(--color-accent-gold)] flex items-center justify-center font-pixel text-xs text-[var(--color-accent-gold)] group-hover:bg-[#1E1929] pixel-hover pixel-shadow-sm">
             ✦
           </div>
           <div className="flex flex-col">
-            <span className="font-pixel text-xs sm:text-sm text-[var(--color-text-bone)] tracking-widest uppercase group-hover:text-[var(--color-accent-gold)] transition-none">
+            <span className="font-pixel text-xs sm:text-sm text-[var(--color-text-bone)] tracking-widest uppercase group-hover:text-[var(--color-accent-gold)] pixel-hover">
               {firstName}
             </span>
             <span className="font-mono text-[10px] text-[var(--color-text-ash)] hidden sm:inline">
@@ -138,18 +138,19 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           {navItems.map((item) => {
             const isActive = isHomePage && activeSection === item.id;
             return (
-              <a
+              <Link
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.id)}
-                className={`relative px-4 py-2 font-pixel text-xs uppercase tracking-wider transition-none pixel-focus ${
+                aria-current={isActive ? "location" : undefined}
+                className={`relative px-4 py-2 font-pixel text-xs uppercase tracking-wider pixel-hover pixel-focus ${
                   isActive
                     ? "bg-[#1C1626] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)] pixel-shadow-sm"
                     : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] hover:bg-[#181422] border border-transparent"
                 }`}
               >
                 {isActive ? `[ ${item.label} ]` : item.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -161,7 +162,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
           aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="md:hidden flex items-center justify-center w-11 h-11 bg-[var(--color-bg-abyss)] border border-[var(--color-border-gothic)] text-[var(--color-text-bone)] hover:border-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold)] pixel-press pixel-focus"
+          className="md:hidden flex items-center justify-center w-11 h-11 bg-[var(--color-bg-abyss)] border border-[var(--color-border-gothic)] text-[var(--color-text-bone)] hover:border-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold)] pixel-hover pixel-press pixel-focus"
         >
           {mobileMenuOpen ? <PixelCloseIcon size={18} /> : <PixelMenuIcon size={18} />}
         </button>
@@ -178,21 +179,22 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           {navItems.map((item) => {
             const isActive = isHomePage && activeSection === item.id;
             return (
-              <a
+              <Link
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.id)}
-                className={`flex items-center justify-between px-4 py-3 min-h-[44px] font-pixel text-xs uppercase tracking-wider border ${
+                aria-current={isActive ? "location" : undefined}
+                className={`flex items-center justify-between px-4 py-3 min-h-[44px] font-pixel text-xs uppercase tracking-wider border pixel-hover ${
                   isActive
                     ? "bg-[#1E1729] text-[var(--color-accent-gold)] border-[var(--color-accent-gold)]"
-                    : "text-[var(--color-text-bone)] border-[var(--color-border-gothic)] hover:bg-[#181422]"
+                    : "text-[var(--color-text-bone)] border-[var(--color-border-gothic)] hover:bg-[#181422] hover:border-[var(--color-accent-gold)]"
                 }`}
               >
                 <span>{item.label}</span>
                 <span className="text-[var(--color-accent-gold)]">
                   {isActive ? "◆" : "›"}
                 </span>
-              </a>
+              </Link>
             );
           })}
         </div>

@@ -17,7 +17,7 @@ interface ContactSectionProps {
 export const ContactSection: React.FC<ContactSectionProps> = ({
   contacts = contactLinksData,
 }) => {
-  const [copied, setCopied] = useState<boolean>(false);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle");
 
   // Direct Channel is stored with platform "Direct Channel" via the CMS.
   const directChannel = contacts.find(
@@ -32,11 +32,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     if (!directEmail) return;
     try {
       await navigator.clipboard.writeText(directEmail);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      setCopyState("copied");
     } catch {
-      setCopied(false);
+      setCopyState("error");
     }
+    setTimeout(() => setCopyState("idle"), 2500);
   };
 
   return (
@@ -77,17 +77,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
             <div className="flex items-center gap-2 shrink-0">
               <PixelButton
-                variant={copied ? "secondary" : "primary"}
+                variant={copyState === "copied" ? "secondary" : "primary"}
                 size="sm"
                 onClick={handleCopyEmail}
+                disabled={!directEmail}
                 aria-label="Copy email address to clipboard"
                 className="gap-2"
               >
-                {copied ? (
+                {copyState === "copied" ? (
                   <>
                     <PixelCheckIcon size={14} />
                     <span>Copied!</span>
                   </>
+                ) : copyState === "error" ? (
+                  <span>Copy failed</span>
                 ) : (
                   <>
                     <PixelCopyIcon size={14} />
@@ -100,6 +103,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 variant="ghost"
                 size="sm"
                 href={directEmail ? `mailto:${directEmail}` : undefined}
+                disabled={!directEmail}
                 aria-label="Open default mail client"
               >
                 Open ↗
@@ -122,7 +126,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[#1A1624] text-[var(--color-text-bone)] hover:text-[var(--color-accent-gold)] transition-none pixel-shadow-sm pixel-focus group min-h-[48px]"
+                className="flex items-center gap-3 p-3 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[#1A1624] text-[var(--color-text-bone)] hover:text-[var(--color-accent-gold)] pixel-hover pixel-shadow-sm pixel-focus group min-h-[48px]"
                 aria-label={`${link.platform} Profile`}
               >
                 <div className="text-[var(--color-text-ash)] group-hover:text-[var(--color-accent-gold)] shrink-0">

@@ -77,7 +77,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
                   className="w-full h-full object-cover pixelated"
                 />
               ) : (
-                <div className="w-full h-full min-h-[140px] flex flex-col items-center justify-center p-4 text-center select-none group-hover:scale-105 transition-none">
+                <div className="w-full h-full min-h-[140px] flex flex-col items-center justify-center p-4 text-center select-none group-hover:scale-105 transition-transform duration-150">
                   <span className="text-3xl mb-1">{post.glyph}</span>
                   <span className="font-mono text-[10px] text-[var(--color-accent-gold)] tracking-widest uppercase">
                     {post.category}
@@ -97,7 +97,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
             </div>
 
             {/* Title */}
-            <h3 className="font-pixel text-sm sm:text-base text-[var(--color-text-bone)] uppercase group-hover:text-[var(--color-accent-gold)] tracking-wide mb-2 line-clamp-2">
+            <h3 className="font-pixel text-sm sm:text-base text-[var(--color-text-bone)] uppercase group-hover:text-[var(--color-accent-gold)] pixel-hover tracking-wide mb-2 line-clamp-2">
               <Link href={`/posts/${post.slug}`} className="pixel-focus">
                 {post.title}
               </Link>
@@ -131,7 +131,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
             <div className="mt-4 pt-3 border-t border-[var(--color-border-gothic)] flex items-center justify-between">
               <Link
                 href={`/posts/${post.slug}`}
-                className="font-pixel text-[11px] text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] flex items-center gap-1 uppercase tracking-wider pixel-focus"
+                className="font-pixel text-[11px] text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] pixel-hover flex items-center gap-1 uppercase tracking-wider pixel-focus"
               >
                 <span>Read Lore</span>
                 <PixelExternalIcon size={12} />
@@ -142,7 +142,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
                   href={post.externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-xs text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] pixel-focus"
+                  className="font-mono text-xs text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] pixel-hover pixel-focus"
                   aria-label={`Live demo for ${post.title}`}
                 >
                   Live Demo ↗

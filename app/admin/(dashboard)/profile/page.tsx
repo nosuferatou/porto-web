@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { PixelCard, PixelButton, PixelFrame } from "@/components/ui";
+import React, { useState, useEffect, useRef } from "react";
+import { PixelCard, PixelButton, PixelFrame, PixelSpinner } from "@/components/ui";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
 
 function CharCount({ value, max }: { value: string; max: number }) {
@@ -20,7 +20,7 @@ function CharCount({ value, max }: { value: string; max: number }) {
 }
 
 const inputCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-shadow-sm pixel-hover";
 
 const labelCls =
   "block font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-wider mb-1";
@@ -57,6 +57,7 @@ export default function AdminProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/admin/profile")
@@ -182,6 +183,7 @@ export default function AdminProfilePage() {
               </label>
               <input
                 id="avatar-upload"
+                ref={avatarInputRef}
                 type="file"
                 accept="image/png,image/jpeg,image/webp,image/gif"
                 onChange={handleFileUpload}
@@ -189,7 +191,8 @@ export default function AdminProfilePage() {
                 className="text-xs font-mono text-[var(--color-text-ash)] file:mr-3 file:py-1.5 file:px-3 file:border-2 file:border-[var(--color-border-subtle)] file:bg-[#120E18] file:text-[var(--color-accent-gold)] file:font-pixel file:text-xs file:uppercase hover:file:border-[var(--color-accent-gold)] cursor-pointer disabled:opacity-50"
               />
               {uploading && (
-                <p className="font-mono text-[11px] text-[var(--color-accent-gold)]">
+                <p className="font-mono text-[11px] text-[var(--color-accent-gold)] inline-flex items-center gap-2">
+                  <PixelSpinner />
                   Uploading...
                 </p>
               )}
@@ -208,7 +211,10 @@ export default function AdminProfilePage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setPhotoUrl("")}
+                    onClick={() => {
+                      setPhotoUrl("");
+                      if (avatarInputRef.current) avatarInputRef.current.value = "";
+                    }}
                     className="font-pixel text-[10px] text-[#E05368] border border-[var(--color-accent-blood)] px-2 py-1 hover:bg-[var(--color-accent-blood)] hover:text-[var(--color-text-bone)] cursor-pointer"
                     aria-label="Clear photo"
                   >
@@ -405,7 +411,7 @@ export default function AdminProfilePage() {
           </div>
 
           <div className="pt-2 flex justify-end">
-            <PixelButton type="submit" variant="primary" size="md" disabled={saving}>
+            <PixelButton type="submit" variant="primary" size="md" disabled={saving} loading={saving}>
               {saving ? "Inscribing..." : "Save Profile"}
             </PixelButton>
           </div>

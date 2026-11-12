@@ -65,7 +65,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
         <div>
           <Link
             href="/posts"
-            className="inline-flex items-center gap-1.5 min-h-[44px] font-pixel text-xs text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] uppercase tracking-wider pixel-focus"
+            className="inline-flex items-center gap-1.5 min-h-[44px] font-pixel text-xs text-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold-bright)] pixel-hover uppercase tracking-wider pixel-focus"
           >
             <span>‹</span>
             <span>Return to Arcane Codex</span>

@@ -203,6 +203,7 @@ export default function AdminSetupForm() {
               variant="primary"
               size="md"
               disabled={loading}
+              loading={loading}
               className="w-full"
             >
               {loading ? "Creating Account..." : "Create Admin Account"}

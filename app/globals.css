@@ -71,6 +71,20 @@ body {
   outline-offset: 2px;
 }
 
+/* Subtle hover feedback for links, pills, and controls. */
+.pixel-hover {
+  transition-property: color, background-color, border-color;
+  transition-duration: 140ms;
+  transition-timing-function: ease-out;
+}
+
+/* Card lift; kept separate so pixel-press stays instant. */
+.pixel-lift {
+  transition-property: transform, border-color, box-shadow;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
+}
+
 /* Motion Accessibility */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

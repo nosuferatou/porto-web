@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { PixelCard, PixelButton } from "@/components/ui";
+import { PixelCard, PixelButton, PixelSpinner } from "@/components/ui";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { AdminAlert, AdminAlertMessage } from "@/components/admin/AdminAlert";
 import { getContactIcon } from "@/lib/contact-icon-map";
@@ -45,13 +45,13 @@ function getIconKeyForPlatform(platform: string): string {
 }
 
 const inputCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none pixel-hover";
 
 const selectCls =
-  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none cursor-pointer";
+  "w-full px-3 py-2 bg-[#0B0A10] border-2 border-[var(--color-border-subtle)] text-[var(--color-text-bone)] font-mono text-xs focus:border-[var(--color-accent-gold)] focus:outline-none cursor-pointer pixel-hover";
 
 const actionBtnCls =
-  "px-2.5 py-1 font-pixel text-[10px] uppercase tracking-wider pixel-focus cursor-pointer border";
+  "px-2.5 py-1 font-pixel text-[10px] uppercase tracking-wider pixel-focus pixel-hover cursor-pointer border";
 
 export default function AdminContactsPage() {
   const [contacts, setContacts] = useState<ContactItem[]>([]);
@@ -345,6 +345,7 @@ export default function AdminContactsPage() {
               variant="primary"
               size="sm"
               disabled={savingDirect}
+              loading={savingDirect}
               className="shrink-0"
             >
               {savingDirect ? "Saving..." : "Save Channel"}
@@ -469,7 +470,7 @@ export default function AdminContactsPage() {
           </div>
 
           <div className="flex justify-end">
-            <PixelButton type="submit" variant="primary" size="sm" disabled={adding}>
+            <PixelButton type="submit" variant="primary" size="sm" disabled={adding} loading={adding}>
               {adding ? "Forging..." : "Inscribe Conduit"}
             </PixelButton>
           </div>
@@ -566,14 +567,17 @@ export default function AdminContactsPage() {
                           type="button"
                           onClick={() => handleSaveEdit(c.id)}
                           disabled={saving}
-                          className={`${actionBtnCls} bg-[#0E1F14] border-[#22C55E] text-[#4ADE80] hover:bg-[#132A1A] disabled:opacity-50`}
+                          aria-busy={saving || undefined}
+                          className={`${actionBtnCls} inline-flex items-center justify-center gap-1.5 min-w-[92px] bg-[#0E1F14] border-[#22C55E] text-[#4ADE80] hover:bg-[#132A1A] disabled:opacity-50`}
                         >
-                          {saving ? "..." : "Save"}
+                          {saving && <PixelSpinner />}
+                          {saving ? "Saving..." : "Save"}
                         </button>
                         <button
                           type="button"
                           onClick={cancelEdit}
-                          className={`${actionBtnCls} bg-transparent border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)]`}
+                          disabled={saving}
+                          className={`${actionBtnCls} bg-transparent border-[var(--color-border-gothic)] text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] disabled:opacity-50`}
                         >
                           Cancel
                         </button>
@@ -637,6 +641,7 @@ export default function AdminContactsPage() {
         confirmLabel={deleting ? "Severing..." : "Sever"}
         cancelLabel="Keep"
         variant="danger"
+        busy={deleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
