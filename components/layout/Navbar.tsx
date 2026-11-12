@@ -60,22 +60,51 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
     return () => observer.disconnect();
   }, [isHomePage]);
 
+  // A soft navigation should never leave the drawer open behind the new page.
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId: string
   ) => {
-    setMobileMenuOpen(false);
-
     if (isHomePage) {
       e.preventDefault();
-      const targetElement = document.getElementById(sectionId);
-      if (targetElement) {
-        const yOffset = -70;
-        const y =
-          targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: "smooth" });
-        setActiveSection(sectionId);
-      }
+      // Close mobile menu first. After state update, calculate scroll position
+      // in a microtask so the layout has settled (menu collapse changes heights).
+      setMobileMenuOpen(false);
+      requestAnimationFrame(() => {
+        const targetElement = document.getElementById(sectionId);
+        if (targetElement) {
+          // Use scrollIntoView for reliable cross-browser/mobile behaviour.
+          // Measure the top bar only; the open drawer also lives inside <header>.
+          const navHeight =
+            document
+              .querySelector("header")
+              ?.firstElementChild?.getBoundingClientRect().height ?? 64;
+          const y =
+            targetElement.getBoundingClientRect().top +
+            window.pageYOffset -
+            navHeight -
+            8;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          setActiveSection(sectionId);
+        }
+      });
+    } else {
+      setMobileMenuOpen(false);
     }
   };
 
@@ -130,6 +159,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
           aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           className="md:hidden flex items-center justify-center w-11 h-11 bg-[var(--color-bg-abyss)] border border-[var(--color-border-gothic)] text-[var(--color-text-bone)] hover:border-[var(--color-accent-gold)] hover:text-[var(--color-accent-gold)] pixel-press pixel-focus"
         >
@@ -140,6 +170,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
         <div
+          id="mobile-navigation"
           role="dialog"
           aria-label="Mobile Navigation"
           className="md:hidden w-full bg-[var(--color-surface-obsidian)] border-b-2 border-[var(--color-border-subtle)] px-4 py-4 space-y-2 pixel-shadow-lg"

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PixelCard, PixelButton, PixelFrame } from "@/components/ui";
@@ -63,6 +69,10 @@ export const PostForm: React.FC<PostFormProps> = ({
 }) => {
   const router = useRouter();
 
+  const thumbnailFileRef = useRef<HTMLInputElement>(null);
+  // Invalidates in-flight thumbnail uploads when the create form is reset.
+  const uploadGenerationRef = useRef(0);
+
   const [title, setTitle] = useState(initialData?.title || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
   const [summary, setSummary] = useState(initialData?.summary || "");
@@ -112,6 +122,42 @@ export const PostForm: React.FC<PostFormProps> = ({
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [alert, setAlert] = useState<AdminAlertMessage | null>(null);
+
+  // Cache Components keeps this page mounted via <Activity>, so an abandoned
+  // create form would otherwise retain its draft and upload status.
+  const resetCreateForm = useCallback(() => {
+    if (isEdit) return;
+
+    uploadGenerationRef.current += 1;
+    setTitle("");
+    setSlug("");
+    setSummary("");
+    setContent("");
+    setCategory("Web Engineering");
+    setThumbnailUrl("");
+    setTagsInput("");
+    setRole("");
+    setSelectedTools([]);
+    setExternalLink("");
+    setGithubLink("");
+    setStatus("published");
+    setFeatured(false);
+    setGlyph("⚔️");
+    setImageRatio("video");
+    setSaving(false);
+    setUploading(false);
+    setAlert(null);
+
+    // File inputs are uncontrolled, so state updates do not clear them.
+    if (thumbnailFileRef.current) {
+      thumbnailFileRef.current.value = "";
+    }
+  }, [isEdit]);
+
+  useLayoutEffect(() => {
+    if (isEdit) return;
+    return () => resetCreateForm();
+  }, [isEdit, resetCreateForm]);
 
   // Dynamic categories fetched from the database
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
@@ -164,6 +210,7 @@ export const PostForm: React.FC<PostFormProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const uploadGeneration = uploadGenerationRef.current;
     setUploading(true);
     setAlert(null);
 
@@ -173,6 +220,8 @@ export const PostForm: React.FC<PostFormProps> = ({
     try {
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data = await res.json();
+      if (uploadGeneration !== uploadGenerationRef.current) return;
+
       if (!res.ok) {
         setAlert({ text: data.error || "Upload failed.", type: "error" });
       } else {
@@ -180,9 +229,12 @@ export const PostForm: React.FC<PostFormProps> = ({
         setAlert({ text: "Thumbnail uploaded.", type: "success" });
       }
     } catch {
+      if (uploadGeneration !== uploadGenerationRef.current) return;
       setAlert({ text: "Failed to upload image relic.", type: "error" });
     } finally {
-      setUploading(false);
+      if (uploadGeneration === uploadGenerationRef.current) {
+        setUploading(false);
+      }
     }
   };
 
@@ -254,6 +306,8 @@ export const PostForm: React.FC<PostFormProps> = ({
         return;
       }
 
+      setSaving(false);
+      if (!isEdit) resetCreateForm();
       router.push("/admin/posts");
       router.refresh();
     } catch {
@@ -403,7 +457,12 @@ export const PostForm: React.FC<PostFormProps> = ({
             Thumbnail Image
           </label>
           <div className="flex flex-col sm:flex-row items-start gap-4">
-            {thumbnailUrl && (
+            {/* Preview — show skeleton while uploading, actual image when done */}
+            {uploading ? (
+              <div className="w-36 shrink-0 aspect-video bg-[var(--color-border-gothic)] animate-pulse flex items-center justify-center">
+                <span className="font-mono text-[10px] text-[var(--color-text-ash)]">Uploading…</span>
+              </div>
+            ) : thumbnailUrl ? (
               <PixelFrame variant="gold" aspectRatio="video" className="w-36 shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -412,23 +471,36 @@ export const PostForm: React.FC<PostFormProps> = ({
                   className="w-full h-full object-cover pixelated"
                 />
               </PixelFrame>
-            )}
+            ) : null}
             <div className="flex-1 space-y-2">
               <input
                 id="thumbnail-file"
+                ref={thumbnailFileRef}
                 type="file"
                 accept="image/png,image/jpeg,image/webp,image/gif"
                 onChange={handleThumbnailUpload}
                 disabled={uploading}
-                className="text-xs font-mono text-[var(--color-text-ash)] file:mr-3 file:py-1.5 file:px-3 file:border-2 file:border-[var(--color-border-subtle)] file:bg-[#120E18] file:text-[var(--color-accent-gold)] file:font-pixel file:text-xs file:uppercase cursor-pointer disabled:opacity-50"
+                className="text-xs font-mono text-[var(--color-text-ash)] file:mr-3 file:py-1.5 file:px-3 file:border-2 file:border-[var(--color-border-subtle)] file:bg-[#120E18] file:text-[var(--color-accent-gold)] file:font-pixel file:text-xs file:uppercase cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               />
               {uploading && (
-                <p className="font-mono text-[11px] text-[var(--color-accent-gold)]">
-                  Uploading relic image...
-                </p>
+                <div className="flex items-center gap-2 py-1">
+                  {/* Animated pixel-style upload indicator */}
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className="w-1.5 h-1.5 bg-[var(--color-accent-gold)] animate-pulse"
+                        style={{ animationDelay: `${i * 150}ms` }}
+                      />
+                    ))}
+                  </div>
+                  <p className="font-mono text-[11px] text-[var(--color-accent-gold)]">
+                    Transmitting relic image…
+                  </p>
+                </div>
               )}
               <p className="font-mono text-[10px] text-[var(--color-text-ash)]">
-                Max 5MB · PNG, JPEG, WEBP, GIF. Stored in /public/uploads/.
+                Max 5MB · PNG, JPEG, WEBP, GIF. Stored in Supabase Storage.
               </p>
               {thumbnailUrl && (
                 <div className="flex items-center gap-2">
@@ -443,7 +515,12 @@ export const PostForm: React.FC<PostFormProps> = ({
                   />
                   <button
                     type="button"
-                    onClick={() => setThumbnailUrl("")}
+                    onClick={() => {
+                      setThumbnailUrl("");
+                      if (thumbnailFileRef.current) {
+                        thumbnailFileRef.current.value = "";
+                      }
+                    }}
                     className="font-pixel text-[10px] text-[#E05368] border border-[var(--color-accent-blood)] px-2 py-1 hover:bg-[var(--color-accent-blood)] hover:text-[var(--color-text-bone)] cursor-pointer"
                     aria-label="Clear thumbnail"
                   >

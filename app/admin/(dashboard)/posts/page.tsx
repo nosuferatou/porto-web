@@ -81,8 +81,35 @@ export default function AdminPostsListPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-12 font-pixel text-xs text-[var(--color-accent-gold)]">
-        Cataloguing Manuscripts...
+      <div className="space-y-6 animate-pulse">
+        {/* Header skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-2">
+            <div className="h-6 w-48 bg-[var(--color-border-gothic)]" />
+            <div className="h-3 w-64 bg-[var(--color-border-subtle)]" />
+          </div>
+          <div className="h-10 w-40 bg-[var(--color-border-gothic)]" />
+        </div>
+        {/* Filter tabs skeleton */}
+        <div className="flex gap-2">
+          {[48, 80, 60].map((w, i) => (
+            <div key={i} className="h-7 bg-[var(--color-border-gothic)]" style={{ width: w }} />
+          ))}
+        </div>
+        {/* Table skeleton */}
+        <div className="bg-[var(--color-surface-obsidian)] border-2 border-[var(--color-border-gothic)] p-0 overflow-hidden">
+          <div className="bg-[#120E18] h-10 border-b border-[var(--color-border-gothic)]" />
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="flex items-center gap-4 p-3.5 border-b border-[var(--color-border-gothic)] last:border-b-0">
+              <div className="h-3 w-4 bg-[var(--color-border-subtle)]" />
+              <div className="h-3 flex-1 bg-[var(--color-border-gothic)]" />
+              <div className="h-3 w-20 bg-[var(--color-border-subtle)] hidden sm:block" />
+              <div className="h-3 w-16 bg-[var(--color-border-subtle)]" />
+              <div className="h-5 w-20 bg-[var(--color-border-gothic)]" />
+              <div className="h-6 w-24 bg-[var(--color-border-gothic)] ml-auto" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

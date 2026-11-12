@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
+import { NavigationProgress } from "@/components/layout/NavigationProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <NavigationProgress />
         <div id="main-content" className="flex-1 flex flex-col">
           {children}
         </div>

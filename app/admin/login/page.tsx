@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PixelCard, PixelButton, PixelFrame } from "@/components/ui";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -33,8 +31,11 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push(data.redirect || "/admin");
-      router.refresh();
+      // Use a full browser navigation so the new session cookie is included in
+      // the first request to the admin dashboard. router.push + router.refresh
+      // can race against the RSC prefetch cache on Vercel, causing the layout's
+      // validateAdminSession() to run before the cookie is propagated.
+      window.location.assign(data.redirect || "/admin");
     } catch {
       setError("Failed to communicate with the authentication sanctum.");
       setLoading(false);

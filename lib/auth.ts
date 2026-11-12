@@ -44,14 +44,16 @@ export function hashSessionToken(token: string): string {
 
 export async function setSessionCookie(token: string): Promise<void> {
   const cookieStore = await cookies();
-  const isProduction = process.env.NODE_ENV === "production";
   cookieStore.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     // In development we allow plain HTTP (localhost). In production enforce HTTPS.
-    secure: isProduction,
-    // "strict" prevents the cookie from being sent on any cross-site request,
-    // providing CSRF protection for state-changing operations.
-    sameSite: isProduction ? "strict" : "lax",
+    secure: process.env.NODE_ENV === "production",
+    // "lax" allows the cookie to be sent on top-level navigations (e.g. user
+    // clicking a bookmark or external link to the admin). "strict" would drop
+    // the cookie on any cross-site navigation, causing unexpected logouts.
+    // For a single-admin site, "lax" provides sufficient CSRF protection while
+    // ensuring the session persists across normal browser navigation patterns.
+    sameSite: "lax",
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   });

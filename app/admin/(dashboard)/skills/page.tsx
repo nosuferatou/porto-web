@@ -323,8 +323,36 @@ export default function AdminSkillsPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-12 font-pixel text-xs text-[var(--color-accent-gold)]">
-        Gathering Mastered Relics...
+      <div className="space-y-8 animate-pulse">
+        {/* Header skeleton */}
+        <div className="space-y-2">
+          <div className="h-6 w-56 bg-[var(--color-border-gothic)]" />
+          <div className="h-3 w-72 bg-[var(--color-border-subtle)]" />
+        </div>
+        {/* Add form skeleton */}
+        <div className="bg-[var(--color-surface-elevated)] border-2 border-[var(--color-border-subtle)] p-6 space-y-4">
+          <div className="h-4 w-40 bg-[var(--color-border-gothic)]" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-9 bg-[var(--color-border-gothic)]" />
+            ))}
+          </div>
+          <div className="h-9 bg-[var(--color-border-gothic)]" />
+        </div>
+        {/* Table skeleton */}
+        <div className="bg-[var(--color-surface-obsidian)] border-2 border-[var(--color-border-gothic)] p-0 overflow-hidden">
+          <div className="bg-[#120E18] h-10 border-b border-[var(--color-border-gothic)]" />
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="flex items-center gap-4 p-3 border-b border-[var(--color-border-gothic)] last:border-b-0">
+              <div className="h-3 w-6 bg-[var(--color-border-subtle)]" />
+              <div className="h-3 w-24 bg-[var(--color-border-gothic)]" />
+              <div className="h-3 w-20 bg-[var(--color-border-subtle)]" />
+              <div className="h-5 w-5 bg-[var(--color-border-gothic)]" />
+              <div className="h-3 flex-1 bg-[var(--color-border-subtle)]" />
+              <div className="h-6 w-20 bg-[var(--color-border-gothic)] ml-auto" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

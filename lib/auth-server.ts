@@ -78,6 +78,18 @@ export async function validateAdminSession(): Promise<{
     return null;
   }
 
+  // Sliding window: if the session expires within 24 h, silently extend it
+  // so normal daily browsing never causes an unexpected logout.
+  const hoursUntilExpiry =
+    (session.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60);
+  if (hoursUntilExpiry < 24) {
+    const newExpiry = new Date();
+    newExpiry.setDate(newExpiry.getDate() + SESSION_DURATION_DAYS);
+    await prisma.session
+      .update({ where: { token: tokenHash }, data: { expiresAt: newExpiry } })
+      .catch(() => {}); // best-effort; don't fail auth on a DB hiccup
+  }
+
   return session.user;
 }
 

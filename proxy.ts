@@ -3,6 +3,8 @@ import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 const SESSION_COOKIE_NAME = "obsidian_admin_session";
+// Keep aligned with validateAdminSession(); the DB expiry is authoritative.
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 
 // Routes that are exempt from the cookie check (pages you need to reach without
 // a session in order to get one).
@@ -45,10 +47,30 @@ export async function proxy(request: NextRequest) {
   // Admin pages (not auth-exempt) require the session cookie to be present. If
   // it is absent, redirect to /admin/login immediately. Full session validation
   // still happens inside each server component and API route handler.
+  let adminPageResponse: NextResponse | null = null;
+
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-    if (!AUTH_EXEMPT.has(pathname) && !request.cookies.has(SESSION_COOKIE_NAME)) {
+    const isProtectedPage = !AUTH_EXEMPT.has(pathname);
+    const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME);
+
+    if (isProtectedPage && !sessionCookie) {
       const loginUrl = new URL("/admin/login", request.url);
       return NextResponse.redirect(loginUrl);
+    }
+
+    // validateAdminSession() slides the DB expiry, but Server Components cannot
+    // refresh the cookie; do it here so active admins are not logged out on day 7.
+    if (isProtectedPage && sessionCookie) {
+      adminPageResponse = NextResponse.next();
+      adminPageResponse.cookies.set({
+        name: SESSION_COOKIE_NAME,
+        value: sessionCookie.value,
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "lax",
+        path: "/",
+        maxAge: SESSION_MAX_AGE_SECONDS,
+      });
     }
   }
 
@@ -73,7 +95,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return adminPageResponse ?? NextResponse.next();
 }
 
 export const config = {

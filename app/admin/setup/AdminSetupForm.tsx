@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PixelCard, PixelButton, PixelFrame } from "@/components/ui";
 
@@ -14,7 +13,6 @@ const passwordRules = [
 ];
 
 export default function AdminSetupForm() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -56,8 +54,9 @@ export default function AdminSetupForm() {
         return;
       }
 
-      router.push(data.redirect || "/admin");
-      router.refresh();
+      // Full browser navigation ensures the new session cookie is present
+      // in the first admin request (same fix as login page).
+      window.location.assign(data.redirect || "/admin");
     } catch {
       setError("Failed to reach the server.");
       setLoading(false);
