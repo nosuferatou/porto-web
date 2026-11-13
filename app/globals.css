@@ -22,6 +22,133 @@
 :root {
   --background: #0B0A10;
   --foreground: #D9D2C3;
+
+  --color-bg-abyss: #0B0A10;
+  --color-surface-obsidian: #15121C;
+  --color-surface-elevated: #1E1A27;
+  --color-border-gothic: #2A2236;
+  --color-border-subtle: #3B324D;
+  --color-text-bone: #D9D2C3;
+  --color-text-ash: #8A8397;
+  --color-accent-blood: #8B1E2D;
+  --color-accent-blood-bright: #B8283D;
+  --color-accent-gold: #C9A24B;
+  --color-accent-gold-bright: #DFB75E;
+  --color-magic-shadow: #4B2E6F;
+
+  --shadow-pixel: 3px 3px 0px 0px #000000;
+  --shadow-pixel-sm: 2px 2px 0px 0px #000000;
+  --shadow-pixel-lg: 4px 4px 0px 0px #000000;
+
+  --color-frame-gold-bg: #181309;
+  --color-frame-blood-bg: #160B0F;
+  --color-frame-inner-border: #1A1624;
+  --color-selected-skill: #1D1728;
+  --color-skill-hover: #1A1524;
+  --color-navbar-active: #1C1626;
+  --color-navbar-hover: #181422;
+  --color-mobile-active: #1E1729;
+  --color-profile-placeholder: #120E18;
+  --color-profile-crest: #0B0A10;
+  --color-contact-icon: #120E18;
+  --color-contact-hover: #1A1624;
+  --color-post-placeholder: #0E0B14;
+  --color-tag-surface: #100D16;
+  --color-post-thumbnail: #120E18;
+  --color-status-dead: #E05368;
+  --color-status-muted: #8A8397;
+  --color-status-busy: #F59E0B;
+  --color-status-respawning: #C9A24B;
+  --color-status-active: #22C55E;
+
+  --color-badge-gold-bg: #1A1610;
+  --color-badge-blood-bg: #1B0F13;
+  --color-badge-blood-text: #E05368;
+  --color-badge-magic-bg: #140F1F;
+  --color-badge-magic-text: #B388FF;
+}
+
+/* ─── Day Mode (Sunlit Codex / Warm Parchment Fantasy) ─── */
+html[data-theme="day"] {
+  --background: #ECE5D8;
+  --foreground: #1D1917;
+
+  /* Antique parchment vellum base */
+  --color-bg-abyss: #ECE5D8;
+  /* Warm sunlit ivory card surfaces */
+  --color-surface-obsidian: #F5EFE3;
+  /* Elevated warm parchment for hover/active */
+  --color-surface-elevated: #EDE4D3;
+  /* Weathered manuscript stone borders */
+  --color-border-gothic: #C4B9A3;
+  --color-border-subtle: #D8CEBC;
+  /* Deep iron gall manuscript ink text */
+  --color-text-bone: #1D1917;
+  /* Muted quill charcoal text */
+  --color-text-ash: #635C52;
+  /* Wax seal crimson */
+  --color-accent-blood: #8B202F;
+  --color-accent-blood-bright: #B0273B;
+  /* Burnished illuminated manuscript gold */
+  --color-accent-gold: #9E7422;
+  --color-accent-gold-bright: #B88828;
+  /* Arcane indigo ink */
+  --color-magic-shadow: #3C2E56;
+
+  /* Rich stepped umber drop shadows for dark fantasy woodblock print feel */
+  --shadow-pixel: 3px 3px 0px 0px #3E3529;
+  --shadow-pixel-sm: 2px 2px 0px 0px #3E3529;
+  --shadow-pixel-lg: 4px 4px 0px 0px #3E3529;
+
+  --color-frame-gold-bg: #F5EBD7;
+  --color-frame-blood-bg: #F6E2E5;
+  --color-frame-inner-border: #D8CEBC;
+  --color-selected-skill: #E4D8C1;
+  --color-skill-hover: #E9DECB;
+  --color-navbar-active: #E4D8C1;
+  --color-navbar-hover: #E9DECB;
+  --color-mobile-active: #E4D8C1;
+  --color-profile-placeholder: #E4DBCA;
+  --color-profile-crest: #D9CFBC;
+  --color-contact-icon: #E4DBCA;
+  --color-contact-hover: #E9DECB;
+  --color-post-placeholder: #E4DBCA;
+  --color-tag-surface: #E9E1D4;
+  --color-post-thumbnail: #E4DBCA;
+  --color-status-dead: #962232;
+  --color-status-muted: #625B51;
+  --color-status-busy: #8B5E16;
+  --color-status-respawning: #8B641B;
+  --color-status-active: #28613B;
+
+  --color-badge-gold-bg: #F4EAD6;
+  --color-badge-blood-bg: #F7E1E4;
+  --color-badge-blood-text: #962232;
+  --color-badge-magic-bg: #EAE3F2;
+  --color-badge-magic-text: #53377E;
+}
+
+/* Coordinated Theme Transitions (250–350ms) */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease,
+    fill 300ms ease,
+    opacity 300ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
 }
 
 body {
@@ -40,34 +167,34 @@ body {
 
 /* Stepped Drop Shadows */
 .pixel-shadow {
-  box-shadow: 3px 3px 0px 0px #000000;
+  box-shadow: var(--shadow-pixel, 3px 3px 0px 0px #000000);
 }
 
 .pixel-shadow-sm {
-  box-shadow: 2px 2px 0px 0px #000000;
+  box-shadow: var(--shadow-pixel-sm, 2px 2px 0px 0px #000000);
 }
 
 .pixel-shadow-lg {
-  box-shadow: 4px 4px 0px 0px #000000;
+  box-shadow: var(--shadow-pixel-lg, 4px 4px 0px 0px #000000);
 }
 
 .pixel-shadow-gold {
-  box-shadow: 3px 3px 0px 0px #000000, 0 0 0 1px #C9A24B;
+  box-shadow: var(--shadow-pixel, 3px 3px 0px 0px #000000), 0 0 0 1px var(--color-accent-gold);
 }
 
 .pixel-shadow-blood {
-  box-shadow: 3px 3px 0px 0px #000000, 0 0 0 1px #8B1E2D;
+  box-shadow: var(--shadow-pixel, 3px 3px 0px 0px #000000), 0 0 0 1px var(--color-accent-blood);
 }
 
 /* Active State Stepped Press */
 .pixel-press:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px 0px #000000;
+  box-shadow: 1px 1px 0px 0px var(--color-border-gothic);
 }
 
 /* Focus Ring for Keyboard Navigation */
 .pixel-focus:focus-visible {
-  outline: 2px dashed #C9A24B;
+  outline: 2px dashed var(--color-accent-gold);
   outline-offset: 2px;
 }
 
@@ -85,12 +212,738 @@ body {
   transition-timing-function: ease-out;
 }
 
-/* Motion Accessibility */
+/* ─── Pixel Campfire ─── */
+
+.pixel-campfire {
+  position: relative;
+  width: 44px;
+  height: 40px;
+}
+
+.campfire-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.campfire-glow {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 68px;
+  height: 24px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    rgba(201, 162, 75, 0.16) 0%,
+    rgba(139, 30, 45, 0.08) 45%,
+    transparent 72%
+  );
+  animation: campfire-glow-pulse 2.8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Stepped pixel flames */
+.flame {
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+.flame-outer {
+  width: 16px;
+  height: 16px;
+  background: #8B1E2D;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  clip-path: polygon(
+    25% 0%, 75% 0%,
+    75% 25%, 87.5% 25%,
+    87.5% 62.5%, 100% 62.5%,
+    100% 100%, 0% 100%,
+    0% 62.5%, 12.5% 62.5%,
+    12.5% 25%, 25% 25%
+  );
+  animation: flame-flicker-outer 0.9s steps(3) infinite alternate;
+}
+
+.flame-mid {
+  width: 12px;
+  height: 13px;
+  background: #D96B20;
+  bottom: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  clip-path: polygon(
+    33% 0%, 67% 0%,
+    67% 30%, 83% 30%,
+    83% 65%, 100% 65%,
+    100% 100%, 0% 100%,
+    0% 65%, 17% 65%,
+    17% 30%, 33% 30%
+  );
+  animation: flame-flicker-mid 0.65s steps(4) infinite alternate;
+}
+
+.flame-core {
+  width: 6px;
+  height: 8px;
+  background: #F6C445;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  clip-path: polygon(
+    33% 0%, 67% 0%,
+    67% 35%, 100% 35%,
+    100% 100%, 0% 100%,
+    0% 35%, 33% 35%
+  );
+  animation: flame-flicker-core 0.45s steps(2) infinite alternate;
+}
+
+.flame-tip {
+  width: 3px;
+  height: 4px;
+  background: #FFF099;
+  bottom: 23px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: flame-flicker-tip 0.55s steps(3) infinite alternate;
+}
+
+/* Ember sparks rising above the fire */
+.ember {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #C9A24B;
+  image-rendering: pixelated;
+  opacity: 0;
+}
+
+.ember-1 {
+  left: 19px;
+  bottom: 24px;
+  animation: ember-rise-1 2.6s steps(6) 0.2s infinite;
+}
+
+.ember-2 {
+  left: 25px;
+  bottom: 23px;
+  animation: ember-rise-2 3.1s steps(7) 1.2s infinite;
+}
+
+.ember-3 {
+  left: 21px;
+  bottom: 26px;
+  animation: ember-rise-3 2.3s steps(5) 2.0s infinite;
+}
+
+.ember-4 {
+  left: 24px;
+  bottom: 25px;
+  animation: ember-rise-4 3.4s steps(6) 0.8s infinite;
+}
+
+/* Stepped pixel hearth base */
+.logs {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 12px;
+}
+
+.log {
+  position: absolute;
+  bottom: 2px;
+  height: 5px;
+  image-rendering: pixelated;
+}
+
+.log-left {
+  left: 2px;
+  width: 20px;
+  background: #382014;
+  border-top: 1px solid #522F1C;
+  border-bottom: 1px solid #1A0E08;
+  clip-path: polygon(
+    0% 33%, 33% 33%, 33% 0%, 100% 0%,
+    100% 67%, 67% 67%, 67% 100%, 0% 100%
+  );
+}
+
+.log-right {
+  right: 2px;
+  width: 20px;
+  background: #2E1B10;
+  border-top: 1px solid #482816;
+  border-bottom: 1px solid #150B06;
+  clip-path: polygon(
+    0% 0%, 67% 0%, 67% 33%, 100% 33%,
+    100% 100%, 33% 100%, 33% 67%, 0% 67%
+  );
+}
+
+.log-coals {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 3px;
+  background: #7A1926;
+  animation: coals-flicker 1.8s steps(2) infinite alternate;
+}
+
+.stone {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 4px;
+  background: #2A2236;
+  border: 1px solid #17131F;
+}
+
+.stone-left {
+  left: 0;
+}
+
+.stone-right {
+  right: 0;
+}
+
+@keyframes campfire-glow-pulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+@keyframes flame-flicker-outer {
+  0% { transform: translateX(-50%) scale(1, 1); }
+  33% { transform: translateX(calc(-50% - 1px)) scale(0.94, 1.06); }
+  66% { transform: translateX(calc(-50% + 1px)) scale(1.06, 0.94); }
+  100% { transform: translateX(-50%) scale(1, 1.05); }
+}
+
+@keyframes flame-flicker-mid {
+  0% { transform: translateX(-50%) scale(1, 1); }
+  25% { transform: translateX(calc(-50% + 1px)) scale(1, 1.08); }
+  50% { transform: translateX(-50%) scale(0.92, 0.95); }
+  75% { transform: translateX(calc(-50% - 1px)) scale(1.05, 1.04); }
+  100% { transform: translateX(-50%) scale(1, 1); }
+}
+
+@keyframes flame-flicker-core {
+  0% { transform: translateX(-50%) scale(1, 1); }
+  50% { transform: translateX(calc(-50% - 0.5px)) scale(1.15, 1.1); }
+  100% { transform: translateX(calc(-50% + 0.5px)) scale(0.9, 0.95); }
+}
+
+@keyframes flame-flicker-tip {
+  0% { transform: translateX(-50%) translateY(0); opacity: 0.85; }
+  33% { transform: translateX(calc(-50% + 1px)) translateY(-2px); opacity: 0.7; }
+  66% { transform: translateX(calc(-50% - 1px)) translateY(-1px); opacity: 0.9; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+}
+
+@keyframes coals-flicker {
+  0% { background: #7A1926; }
+  100% { background: #A82834; }
+}
+
+@keyframes ember-rise-1 {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 0.85; }
+  80% { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(3px, -20px); }
+}
+
+@keyframes ember-rise-2 {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 0.9; }
+  80% { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(-3px, -24px); }
+}
+
+@keyframes ember-rise-3 {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 0.8; }
+  75% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate(2px, -18px); }
+}
+
+@keyframes ember-rise-4 {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 0.75; }
+  80% { opacity: 0.55; }
+  100% { opacity: 0; transform: translate(-2px, -22px); }
+}
+
+/* ─── Background Environment ─── */
+
+.bg-environment {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bg-env-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #0B111E 0%,
+    #0D1524 20%,
+    #0E1722 40%,
+    #0C121A 65%,
+    #0B0A10 100%
+  );
+}
+
+/* Faint pixel stars scattered across the upper sky */
+.bg-env-sky::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 8%, rgba(217, 210, 195, 0.65) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 28% 14%, rgba(217, 210, 195, 0.45) 50%, transparent 50%),
+    radial-gradient(2px 2px at 45% 5%, rgba(217, 210, 195, 0.55) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 62% 18%, rgba(217, 210, 195, 0.40) 50%, transparent 50%),
+    radial-gradient(2px 2px at 78% 9%, rgba(217, 210, 195, 0.50) 50%, transparent 50%),
+    radial-gradient(1px 1px at 91% 22%, rgba(217, 210, 195, 0.35) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 35% 28%, rgba(217, 210, 195, 0.40) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 32%, rgba(217, 210, 195, 0.30) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 8% 35%, rgba(217, 210, 195, 0.35) 50%, transparent 50%),
+    radial-gradient(2px 2px at 82% 3%, rgba(217, 210, 195, 0.60) 50%, transparent 50%),
+    radial-gradient(1px 1px at 17% 42%, rgba(217, 210, 195, 0.25) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 70% 38%, rgba(217, 210, 195, 0.35) 50%, transparent 50%);
+  image-rendering: pixelated;
+}
+
+.bg-env-moon {
+  position: absolute;
+  top: 7%;
+  right: 16%;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(217, 210, 195, 0.55) 0%,
+    rgba(217, 210, 195, 0.30) 45%,
+    rgba(217, 210, 195, 0.10) 70%,
+    transparent 85%
+  );
+  box-shadow:
+    0 0 35px 12px rgba(217, 210, 195, 0.12),
+    0 0 75px 35px rgba(201, 162, 75, 0.05);
+}
+
+/* Castle silhouette on the far horizon */
+.bg-env-castle {
+  position: absolute;
+  bottom: 35%;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: #111826;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120 L0 90 L60 90 L60 85 L120 85 L120 80 L180 80 L180 90 L240 90 L240 88 L300 88 L300 82 L320 82 L320 70 L325 70 L325 55 L330 55 L330 45 L335 45 L335 40 L340 40 L340 45 L345 45 L345 55 L350 55 L350 62 L355 62 L355 70 L360 70 L360 82 L380 82 L380 86 L440 86 L440 90 L500 90 L500 85 L560 85 L560 88 L620 88 L620 84 L680 84 L680 88 L740 88 L740 82 L760 82 L760 65 L765 65 L765 48 L770 48 L770 38 L775 38 L775 35 L780 35 L780 38 L785 38 L785 48 L790 48 L790 58 L795 58 L795 65 L800 65 L800 72 L810 72 L810 65 L815 65 L815 52 L820 52 L820 45 L825 45 L825 52 L830 52 L830 65 L835 65 L835 72 L840 72 L840 82 L860 82 L860 86 L920 86 L920 90 L980 90 L980 88 L1040 88 L1040 84 L1100 84 L1100 88 L1160 88 L1160 90 L1220 90 L1220 86 L1280 86 L1280 90 L1340 90 L1340 85 L1400 85 L1400 90 L1440 90 L1440 120 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120 L0 90 L60 90 L60 85 L120 85 L120 80 L180 80 L180 90 L240 90 L240 88 L300 88 L300 82 L320 82 L320 70 L325 70 L325 55 L330 55 L330 45 L335 45 L335 40 L340 40 L340 45 L345 45 L345 55 L350 55 L350 62 L355 62 L355 70 L360 70 L360 82 L380 82 L380 86 L440 86 L440 90 L500 90 L500 85 L560 85 L560 88 L620 88 L620 84 L680 84 L680 88 L740 88 L740 82 L760 82 L760 65 L765 65 L765 48 L770 48 L770 38 L775 38 L775 35 L780 35 L780 38 L785 38 L785 48 L790 48 L790 58 L795 58 L795 65 L800 65 L800 72 L810 72 L810 65 L815 65 L815 52 L820 52 L820 45 L825 45 L825 52 L830 52 L830 65 L835 65 L835 72 L840 72 L840 82 L860 82 L860 86 L920 86 L920 90 L980 90 L980 88 L1040 88 L1040 84 L1100 84 L1100 88 L1160 88 L1160 90 L1220 90 L1220 86 L1280 86 L1280 90 L1340 90 L1340 85 L1400 85 L1400 90 L1440 90 L1440 120 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0.7;
+}
+
+/* Far mountain range */
+.bg-env-mountains-far {
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: #101924;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160' preserveAspectRatio='none'%3E%3Cpath d='M0 160 L0 110 L80 100 L160 80 L200 90 L280 60 L340 70 L400 50 L480 75 L540 65 L600 85 L680 55 L740 70 L820 45 L880 60 L960 40 L1020 55 L1080 70 L1140 50 L1200 65 L1280 80 L1360 95 L1440 85 L1440 160 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160' preserveAspectRatio='none'%3E%3Cpath d='M0 160 L0 110 L80 100 L160 80 L200 90 L280 60 L340 70 L400 50 L480 75 L540 65 L600 85 L680 55 L740 70 L820 45 L880 60 L960 40 L1020 55 L1080 70 L1140 50 L1200 65 L1280 80 L1360 95 L1440 85 L1440 160 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0.75;
+}
+
+/* Mid forest silhouette with jagged treetops — muted dark teal */
+.bg-env-forest-mid {
+  position: absolute;
+  bottom: 14%;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: #0E1B1E;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180' preserveAspectRatio='none'%3E%3Cpath d='M0 180 L0 120 L20 118 L30 95 L40 100 L50 80 L60 90 L70 75 L80 85 L90 70 L105 88 L115 72 L125 82 L140 65 L155 80 L165 68 L180 90 L195 75 L210 85 L225 60 L240 78 L250 65 L265 85 L280 70 L295 80 L310 62 L330 85 L345 72 L360 90 L380 78 L395 68 L410 88 L425 74 L440 92 L460 80 L475 70 L490 85 L510 65 L525 80 L540 72 L555 88 L570 75 L590 90 L605 78 L620 68 L640 85 L655 72 L670 80 L685 62 L700 82 L720 70 L735 88 L750 76 L770 90 L785 74 L800 65 L815 82 L835 70 L850 85 L865 72 L880 90 L900 78 L915 68 L930 82 L950 72 L965 88 L980 76 L1000 90 L1015 74 L1030 65 L1050 82 L1065 72 L1080 85 L1100 70 L1115 80 L1130 68 L1150 88 L1165 74 L1180 90 L1200 78 L1215 68 L1230 82 L1250 72 L1265 88 L1280 75 L1300 90 L1315 80 L1330 70 L1350 85 L1365 74 L1380 90 L1400 82 L1420 88 L1440 80 L1440 180 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180' preserveAspectRatio='none'%3E%3Cpath d='M0 180 L0 120 L20 118 L30 95 L40 100 L50 80 L60 90 L70 75 L80 85 L90 70 L105 88 L115 72 L125 82 L140 65 L155 80 L165 68 L180 90 L195 75 L210 85 L225 60 L240 78 L250 65 L265 85 L280 70 L295 80 L310 62 L330 85 L345 72 L360 90 L380 78 L395 68 L410 88 L425 74 L440 92 L460 80 L475 70 L490 85 L510 65 L525 80 L540 72 L555 88 L570 75 L590 90 L605 78 L620 68 L640 85 L655 72 L670 80 L685 62 L700 82 L720 70 L735 88 L750 76 L770 90 L785 74 L800 65 L815 82 L835 70 L850 85 L865 72 L880 90 L900 78 L915 68 L930 82 L950 72 L965 88 L980 76 L1000 90 L1015 74 L1030 65 L1050 82 L1065 72 L1080 85 L1100 70 L1115 80 L1130 68 L1150 88 L1165 74 L1180 90 L1200 78 L1215 68 L1230 82 L1250 72 L1265 88 L1280 75 L1300 90 L1315 80 L1330 70 L1350 85 L1365 74 L1380 90 L1400 82 L1420 88 L1440 80 L1440 180 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0.85;
+}
+
+/* Near forest layer — desaturated dark green tint */
+.bg-env-forest-near {
+  position: absolute;
+  bottom: 0%;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(to bottom, #0F1E17 0%, #0B1410 40%, #0B0A10 100%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200' preserveAspectRatio='none'%3E%3Cpath d='M0 200 L0 140 L15 138 L25 110 L35 120 L45 90 L55 105 L65 80 L75 95 L85 65 L100 90 L110 72 L120 58 L135 78 L145 60 L160 82 L175 68 L185 50 L200 72 L215 85 L225 65 L240 80 L255 55 L270 75 L280 60 L295 82 L310 68 L325 50 L340 70 L355 85 L370 65 L385 78 L395 55 L410 72 L425 85 L440 60 L455 78 L470 55 L485 72 L500 82 L515 62 L530 80 L545 58 L560 75 L575 85 L590 65 L605 78 L615 55 L630 72 L645 85 L660 60 L675 78 L690 55 L705 72 L720 82 L735 62 L750 80 L765 58 L780 75 L795 85 L810 65 L825 78 L835 55 L850 72 L865 85 L880 60 L895 78 L910 55 L925 72 L940 82 L955 62 L970 80 L985 58 L1000 75 L1015 85 L1030 65 L1045 78 L1055 55 L1070 72 L1085 85 L1100 60 L1115 78 L1130 55 L1145 72 L1160 82 L1175 62 L1190 80 L1205 58 L1220 75 L1235 85 L1250 65 L1265 78 L1275 55 L1290 72 L1305 85 L1320 60 L1335 78 L1350 55 L1365 72 L1380 82 L1395 62 L1410 80 L1425 65 L1440 75 L1440 200 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200' preserveAspectRatio='none'%3E%3Cpath d='M0 200 L0 140 L15 138 L25 110 L35 120 L45 90 L55 105 L65 80 L75 95 L85 65 L100 90 L110 72 L120 58 L135 78 L145 60 L160 82 L175 68 L185 50 L200 72 L215 85 L225 65 L240 80 L255 55 L270 75 L280 60 L295 82 L310 68 L325 50 L340 70 L355 85 L370 65 L385 78 L395 55 L410 72 L425 85 L440 60 L455 78 L470 55 L485 72 L500 82 L515 62 L530 80 L545 58 L560 75 L575 85 L590 65 L605 78 L615 55 L630 72 L645 85 L660 60 L675 78 L690 55 L705 72 L720 82 L735 62 L750 80 L765 58 L780 75 L795 85 L810 65 L825 78 L835 55 L850 72 L865 85 L880 60 L895 78 L910 55 L925 72 L940 82 L955 62 L970 80 L985 58 L1000 75 L1015 85 L1030 65 L1045 78 L1055 55 L1070 72 L1085 85 L1100 60 L1115 78 L1130 55 L1145 72 L1160 82 L1175 62 L1190 80 L1205 58 L1220 75 L1235 85 L1250 65 L1265 78 L1275 55 L1290 72 L1305 85 L1320 60 L1335 78 L1350 55 L1365 72 L1380 82 L1395 62 L1410 80 L1425 65 L1440 75 L1440 200 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+/* Drifting fog bands */
+.bg-env-fog {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  height: 90px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(20, 32, 40, 0.3) 15%,
+    rgba(30, 24, 38, 0.25) 35%,
+    rgba(20, 32, 40, 0.28) 55%,
+    rgba(30, 24, 38, 0.2) 75%,
+    transparent 100%
+  );
+  opacity: 0.6;
+  animation: env-fog-drift 90s linear infinite;
+  will-change: transform;
+}
+
+.bg-env-fog-1 {
+  bottom: 26%;
+  animation-duration: 90s;
+}
+
+.bg-env-fog-2 {
+  bottom: 12%;
+  height: 70px;
+  opacity: 0.45;
+  animation-duration: 120s;
+  animation-direction: reverse;
+}
+
+/* Bottom fade to match page background seamlessly */
+.bg-env-ground-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(11, 10, 16, 0.7) 45%,
+    #0B0A10 100%
+  );
+}
+
+@keyframes env-fog-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(10%); }
+}
+
+/* On small screens, simplify the environment */
+@media (max-width: 768px) {
+  .bg-env-castle { display: none; }
+  .bg-env-moon {
+    width: 36px;
+    height: 36px;
+    top: 5%;
+    right: 10%;
+  }
+  .bg-env-mountains-far { opacity: 0.5; }
+  .bg-env-forest-mid { opacity: 0.6; }
+  .bg-env-forest-near { opacity: 0.75; }
+  .bg-env-fog { opacity: 0.35; }
+}
+
+/* ─── Day Mode Environment Styles ─── */
+
+html[data-theme="day"] .bg-env-sky {
+  background: linear-gradient(
+    to bottom,
+    #9BB2C0 0%,
+    #B5CAD5 20%,
+    #D0D9D5 42%,
+    #E1DBD0 68%,
+    #ECE5D8 100%
+  );
+  transition: background 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-sky::before {
+  opacity: 0;
+  transition: opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-castle {
+  background: #5B6D7A;
+  opacity: 0.55;
+  transition: background 350ms ease, opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-mountains-far {
+  background: #4E6573;
+  opacity: 0.65;
+  transition: background 350ms ease, opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-forest-mid {
+  background: #455C50;
+  opacity: 0.72;
+  transition: background 350ms ease, opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-forest-near {
+  background: linear-gradient(to bottom, #324A3D 0%, #273A30 45%, #ECE5D8 100%);
+  opacity: 0.82;
+  transition: background 350ms ease, opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-fog {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(244, 238, 226, 0.45) 15%,
+    rgba(222, 210, 190, 0.35) 35%,
+    rgba(244, 238, 226, 0.42) 55%,
+    rgba(222, 210, 190, 0.30) 75%,
+    transparent 100%
+  );
+  opacity: 0.55;
+  transition: background 350ms ease, opacity 350ms ease;
+}
+
+html[data-theme="day"] .bg-env-ground-fade {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(236, 229, 216, 0.75) 45%,
+    #ECE5D8 100%
+  );
+  transition: background 350ms ease;
+}
+
+[data-admin-root] .bg-env-ground-fade {
+  background: linear-gradient(to bottom, transparent 0%, rgba(11, 10, 16, 0.7) 45%, #0B0A10 100%);
+}
+
+[data-admin-root] .bg-env-castle {
+  background: #111826;
+  opacity: 0.7;
+}
+
+[data-admin-root] .bg-env-mountains-far {
+  background: #101924;
+  opacity: 0.75;
+}
+
+[data-admin-root] .bg-env-forest-mid {
+  background: #0E1B1E;
+  opacity: 0.85;
+}
+
+[data-admin-root] .bg-env-forest-near {
+  background: linear-gradient(to bottom, #0F1E17 0%, #0B1410 40%, #0B0A10 100%);
+  opacity: 0.9;
+}
+
+[data-admin-root] .bg-env-fog {
+  background: linear-gradient(90deg, transparent 0%, rgba(20, 32, 40, 0.3) 15%, rgba(30, 24, 38, 0.25) 35%, rgba(20, 32, 40, 0.28) 55%, rgba(30, 24, 38, 0.2) 75%, transparent 100%);
+}
+
+/* ─── Celestial Theme Toggle Atmospheric Halos ─── */
+
+.celestial-halo-moon {
+  background: radial-gradient(
+    circle at 45% 45%,
+    rgba(217, 210, 195, 0.45) 0%,
+    rgba(217, 210, 195, 0.18) 50%,
+    transparent 75%
+  );
+  box-shadow:
+    0 0 32px 10px rgba(217, 210, 195, 0.16),
+    0 0 65px 30px rgba(201, 162, 75, 0.06);
+}
+
+.celestial-halo-sun {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(252, 233, 155, 0.65) 0%,
+    rgba(224, 168, 56, 0.28) 55%,
+    transparent 80%
+  );
+  box-shadow:
+    0 0 38px 14px rgba(224, 168, 56, 0.36),
+    0 0 75px 35px rgba(201, 162, 75, 0.22);
+}
+
+.group:hover .celestial-halo-moon {
+  box-shadow:
+    0 0 42px 16px rgba(217, 210, 195, 0.28),
+    0 0 80px 40px rgba(201, 162, 75, 0.12);
+}
+
+.group:hover .celestial-halo-sun {
+  box-shadow:
+    0 0 46px 18px rgba(224, 168, 56, 0.48),
+    0 0 90px 45px rgba(201, 162, 75, 0.30);
+}
+
+/* Respect prefers-reduced-motion for celestial toggle transitions */
+@media (prefers-reduced-motion: reduce) {
+  .celestial-toggle,
+  .celestial-icon,
+  .celestial-halo {
+    transition: opacity 150ms ease !important;
+    transform: none !important;
+  }
+}
+
+/* Keep admin routes dark, even while the public theme is in Day Mode. */
+[data-admin-root] {
+  color-scheme: dark;
+  --background: #0B0A10;
+  --foreground: #D9D2C3;
+  --color-bg-abyss: #0B0A10;
+  --color-surface-obsidian: #15121C;
+  --color-surface-elevated: #1E1A27;
+  --color-border-gothic: #2A2236;
+  --color-border-subtle: #3B324D;
+  --color-text-bone: #D9D2C3;
+  --color-text-ash: #8A8397;
+  --color-accent-blood: #8B1E2D;
+  --color-accent-blood-bright: #B8283D;
+  --color-accent-gold: #C9A24B;
+  --color-accent-gold-bright: #DFB75E;
+  --color-magic-shadow: #4B2E6F;
+  --shadow-pixel: 3px 3px 0px 0px #000000;
+  --shadow-pixel-sm: 2px 2px 0px 0px #000000;
+  --shadow-pixel-lg: 4px 4px 0px 0px #000000;
+  --color-frame-gold-bg: #181309;
+  --color-frame-blood-bg: #160B0F;
+  --color-frame-inner-border: #1A1624;
+  --color-selected-skill: #1D1728;
+  --color-skill-hover: #1A1524;
+  --color-navbar-active: #1C1626;
+  --color-navbar-hover: #181422;
+  --color-mobile-active: #1E1729;
+  --color-profile-placeholder: #120E18;
+  --color-profile-crest: #0B0A10;
+  --color-contact-icon: #120E18;
+  --color-contact-hover: #1A1624;
+  --color-post-placeholder: #0E0B14;
+  --color-tag-surface: #100D16;
+  --color-post-thumbnail: #120E18;
+  --color-status-dead: #E05368;
+  --color-status-muted: #8A8397;
+  --color-status-busy: #F59E0B;
+  --color-status-respawning: #C9A24B;
+  --color-status-active: #22C55E;
+  --color-badge-gold-bg: #1A1610;
+  --color-badge-blood-bg: #1B0F13;
+  --color-badge-blood-text: #E05368;
+  --color-badge-magic-bg: #140F1F;
+  --color-badge-magic-text: #B388FF;
+}
+
+[data-admin-root] .bg-env-sky,
+[data-admin-root] .bg-env-ground-fade {
+  background: #0B0A10;
+}
+
+[data-admin-root] .bg-env-sky::before {
+  opacity: 1;
+}
+
+/* ─── Floating Particles ─── */
+
+.floating-particle {
+  position: absolute;
+  bottom: -6px;
+  left: var(--fp-x);
+  width: var(--fp-size);
+  height: var(--fp-size);
+  background: var(--fp-color);
+  image-rendering: pixelated;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: particle-float var(--fp-duration) linear var(--fp-delay) infinite;
+}
+
+html[data-theme="day"] .floating-particle {
+  filter: contrast(1.1) brightness(0.65);
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  10% {
+    opacity: var(--fp-opacity);
+  }
+  50% {
+    transform: translate(calc(var(--fp-drift) * 0.5), -50vh);
+  }
+  85% {
+    opacity: var(--fp-opacity);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--fp-drift), -105vh);
+  }
+}
+
+/* Motion Accessibility — disables campfire and particle animations */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .pixel-campfire .flame,
+  .pixel-campfire .ember,
+  .pixel-campfire .log-coals {
+    animation: none !important;
+  }
+
+  .pixel-campfire .campfire-glow {
+    animation: none !important;
+    opacity: 0.4 !important;
+  }
+
+  .floating-particles {
+    display: none !important;
+  }
+
+  .bg-env-fog {
+    animation: none !important;
   }
 }

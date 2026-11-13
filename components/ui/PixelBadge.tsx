@@ -11,11 +11,11 @@ const variantStyles = {
   default:
     "bg-[var(--color-surface-obsidian)] text-[var(--color-text-ash)] border border-[var(--color-border-gothic)]",
   gold:
-    "bg-[#1A1610] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)]",
+    "bg-[var(--color-badge-gold-bg)] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)]",
   blood:
-    "bg-[#1B0F13] text-[#E05368] border border-[var(--color-accent-blood)]",
+    "bg-[var(--color-badge-blood-bg)] text-[var(--color-badge-blood-text)] border border-[var(--color-accent-blood)]",
   magic:
-    "bg-[#140F1F] text-[#B388FF] border border-[var(--color-magic-shadow)]",
+    "bg-[var(--color-badge-magic-bg)] text-[var(--color-badge-magic-text)] border border-[var(--color-magic-shadow)]",
 };
 
 const sizeStyles = {

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PixelMenuIcon, PixelCloseIcon } from "@/components/icons";
+import { useTheme } from "@/components/theme/ThemeContext";
 
 interface NavItem {
   id: string;
@@ -26,6 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const { theme } = useTheme();
 
   const firstName = (profileName || "").trim().split(/\s+/)[0] || "Portfolio";
 
@@ -117,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
           className="flex items-center gap-2.5 group pixel-focus py-1"
           aria-label={`Home - ${firstName} Portfolio`}
         >
-          <div className="w-8 h-8 bg-[#100D16] border-2 border-[var(--color-accent-gold)] flex items-center justify-center font-pixel text-xs text-[var(--color-accent-gold)] group-hover:bg-[#1E1929] pixel-hover pixel-shadow-sm">
+          <div className="w-8 h-8 bg-[var(--color-surface-obsidian)] border-2 border-[var(--color-accent-gold)] flex items-center justify-center font-pixel text-xs text-[var(--color-accent-gold)] group-hover:bg-[var(--color-surface-elevated)] pixel-hover pixel-shadow-sm">
             ✦
           </div>
           <div className="flex flex-col">
@@ -125,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
               {firstName}
             </span>
             <span className="font-mono text-[10px] text-[var(--color-text-ash)] hidden sm:inline">
-              Obsidian Codex
+              {theme === "day" ? "Sunlit Codex" : "Obsidian Codex"}
             </span>
           </div>
         </Link>
@@ -145,8 +147,8 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
                 aria-current={isActive ? "location" : undefined}
                 className={`relative px-4 py-2 font-pixel text-xs uppercase tracking-wider pixel-hover pixel-focus ${
                   isActive
-                    ? "bg-[#1C1626] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)] pixel-shadow-sm"
-                    : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] hover:bg-[#181422] border border-transparent"
+                    ? "bg-[var(--color-navbar-active)] text-[var(--color-accent-gold)] border border-[var(--color-accent-gold)] pixel-shadow-sm"
+                    : "text-[var(--color-text-ash)] hover:text-[var(--color-text-bone)] hover:bg-[var(--color-navbar-hover)] border border-transparent"
                 }`}
               >
                 {isActive ? `[ ${item.label} ]` : item.label}
@@ -186,8 +188,8 @@ export const Navbar: React.FC<NavbarProps> = ({ profileName }) => {
                 aria-current={isActive ? "location" : undefined}
                 className={`flex items-center justify-between px-4 py-3 min-h-[44px] font-pixel text-xs uppercase tracking-wider border pixel-hover ${
                   isActive
-                    ? "bg-[#1E1729] text-[var(--color-accent-gold)] border-[var(--color-accent-gold)]"
-                    : "text-[var(--color-text-bone)] border-[var(--color-border-gothic)] hover:bg-[#181422] hover:border-[var(--color-accent-gold)]"
+                    ? "bg-[var(--color-mobile-active)] text-[var(--color-accent-gold)] border-[var(--color-accent-gold)]"
+                    : "text-[var(--color-text-bone)] border-[var(--color-border-gothic)] hover:bg-[var(--color-navbar-hover)] hover:border-[var(--color-accent-gold)]"
                 }`}
               >
                 <span>{item.label}</span>

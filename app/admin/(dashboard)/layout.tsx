@@ -17,7 +17,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-bg-abyss)] text-[var(--color-text-bone)]">
+    <div data-admin-root className="min-h-screen flex flex-col bg-[var(--color-bg-abyss)] text-[var(--color-text-bone)]">
       <AdminHeader userEmail={user.email} />
       <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 w-full py-8">
         {children}

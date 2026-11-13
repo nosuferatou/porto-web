@@ -10,22 +10,22 @@ export interface PixelFrameProps {
 
 const variantStyles = {
   stone: {
-    outer: "bg-[#100D16] border-2 border-[var(--color-border-gothic)] pixel-shadow",
-    inner: "border-2 border-[#1A1624]",
+    outer: "bg-[var(--color-surface-obsidian)] border-2 border-[var(--color-border-gothic)] pixel-shadow",
+    inner: "border-2 border-[var(--color-frame-inner-border)]",
     stud: "bg-[var(--color-border-subtle)]",
   },
   relic: {
-    outer: "bg-[#130E1B] border-2 border-[var(--color-border-subtle)] pixel-shadow-lg",
+    outer: "bg-[var(--color-surface-elevated)] border-2 border-[var(--color-border-subtle)] pixel-shadow-lg",
     inner: "border border-[var(--color-accent-gold)]/40",
     stud: "bg-[var(--color-accent-gold)]",
   },
   gold: {
-    outer: "bg-[#181309] border-2 border-[var(--color-accent-gold)] pixel-shadow-gold",
+    outer: "bg-[var(--color-frame-gold-bg)] border-2 border-[var(--color-accent-gold)] pixel-shadow-gold",
     inner: "border border-[var(--color-accent-gold-bright)]/60",
     stud: "bg-[var(--color-accent-gold-bright)]",
   },
   blood: {
-    outer: "bg-[#160B0F] border-2 border-[var(--color-accent-blood)] pixel-shadow-blood",
+    outer: "bg-[var(--color-frame-blood-bg)] border-2 border-[var(--color-accent-blood)] pixel-shadow-blood",
     inner: "border border-[var(--color-accent-blood-bright)]/50",
     stud: "bg-[var(--color-accent-blood-bright)]",
   },

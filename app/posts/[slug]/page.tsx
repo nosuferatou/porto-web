@@ -128,7 +128,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
               className={`w-full pixelated ${post.imageRatio === "auto" ? "h-auto block" : "h-full object-cover"}`}
             />
           ) : (
-            <div className="w-full h-full min-h-[280px] bg-[#120E18] flex flex-col items-center justify-center p-8 text-center select-none">
+            <div className="w-full h-full min-h-[280px] bg-[var(--color-post-thumbnail)] flex flex-col items-center justify-center p-8 text-center select-none">
               <span className="text-5xl mb-2">{post.glyph}</span>
               <span className="font-pixel text-sm text-[var(--color-accent-gold)] uppercase tracking-widest">
                 {post.title}
@@ -181,7 +181,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-1 bg-[#100D16] border border-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-text-ash)]"
+                  className="px-2 py-1 bg-[var(--color-tag-surface)] border border-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-text-ash)]"
                 >
                   #{tag}
                 </span>

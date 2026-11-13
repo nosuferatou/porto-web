@@ -4,3 +4,7 @@ export * from "./PixelCard";
 export * from "./PixelFrame";
 export * from "./PixelBadge";
 export * from "./GothicDivider";
+export * from "./PixelCampfire";
+export * from "./FloatingParticles";
+export * from "./BackgroundEnvironment";
+export * from "./CelestialThemeToggle";

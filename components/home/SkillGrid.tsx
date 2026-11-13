@@ -71,8 +71,8 @@ export const SkillGrid: React.FC<SkillGridProps> = ({ skills = [] }) => {
               aria-pressed={isSelected}
               className={`p-3 bg-[var(--color-surface-obsidian)] border-2 pixel-hover pixel-focus pixel-press text-left flex flex-col items-center justify-center text-center group cursor-pointer ${
                 isSelected
-                  ? "border-[var(--color-accent-gold)] bg-[#1D1728] pixel-shadow-gold"
-                  : "border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[#1A1524] pixel-shadow-sm"
+                  ? "border-[var(--color-accent-gold)] bg-[var(--color-selected-skill)] pixel-shadow-gold"
+                  : "border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-skill-hover)] pixel-shadow-sm"
               }`}
             >
               <div className="w-10 h-10 mb-2 flex items-center justify-center">

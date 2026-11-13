@@ -67,7 +67,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
             <PixelFrame
               variant="stone"
               aspectRatio="video"
-              className="w-full mb-4 bg-[#0E0B14]"
+              className="w-full mb-4 bg-[var(--color-post-placeholder)]"
             >
               {post.thumbnailUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -120,7 +120,7 @@ export const PostsPreviewSection: React.FC<PostsPreviewSectionProps> = ({
               {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="px-1.5 py-0.5 bg-[#100D16] border border-[var(--color-border-subtle)] text-[10px] font-mono text-[var(--color-text-ash)]"
+                  className="px-1.5 py-0.5 bg-[var(--color-tag-surface)] border border-[var(--color-border-subtle)] text-[10px] font-mono text-[var(--color-text-ash)]"
                 >
                   #{tag}
                 </span>

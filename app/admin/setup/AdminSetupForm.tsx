@@ -64,7 +64,7 @@ export default function AdminSetupForm() {
   };
 
   return (
-    <>
+    <div data-admin-root>
       <div className="mb-4 text-center">
         <Link
           href="/"
@@ -211,6 +211,6 @@ export default function AdminSetupForm() {
           </div>
         </form>
       </PixelCard>
-    </>
+    </div>
   );
 }

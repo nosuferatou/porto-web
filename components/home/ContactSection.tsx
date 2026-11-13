@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { PixelCard, PixelButton } from "@/components/ui";
+import { PixelCard, PixelButton, PixelCampfire } from "@/components/ui";
 import { contactLinksData, ContactLink } from "@/lib/data";
 import {
   PixelMailIcon,
@@ -62,7 +62,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         <PixelCard variant="elevated" cornerStuds className="p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3 text-left min-w-0">
-              <div className="w-10 h-10 bg-[#120E18] border border-[var(--color-accent-gold)] flex items-center justify-center text-[var(--color-accent-gold)] shrink-0 pixel-shadow-sm">
+              <div className="w-10 h-10 bg-[var(--color-contact-icon)] border border-[var(--color-accent-gold)] flex items-center justify-center text-[var(--color-accent-gold)] shrink-0 pixel-shadow-sm">
                 <PixelMailIcon size={20} />
               </div>
               <div className="min-w-0">
@@ -126,7 +126,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[#1A1624] text-[var(--color-text-bone)] hover:text-[var(--color-accent-gold)] pixel-hover pixel-shadow-sm pixel-focus group min-h-[48px]"
+                className="flex items-center gap-3 p-3 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-contact-hover)] text-[var(--color-text-bone)] hover:text-[var(--color-accent-gold)] pixel-hover pixel-shadow-sm pixel-focus group min-h-[48px]"
                 aria-label={`${link.platform} Profile`}
               >
                 <div className="text-[var(--color-text-ash)] group-hover:text-[var(--color-accent-gold)] shrink-0">
@@ -146,7 +146,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         </div>
 
         {/* Bottom Colophon */}
-        <div className="pt-8 border-t border-[var(--color-border-gothic)] text-center space-y-2">
+        <div className="pt-8 border-t border-[var(--color-border-gothic)] text-center flex flex-col items-center space-y-3">
+          <PixelCampfire />
           <p className="font-pixel text-xs text-[var(--color-accent-gold)] tracking-widest uppercase">
             The Obsidian Reliquary
           </p>

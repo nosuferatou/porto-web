@@ -21,7 +21,7 @@ const variantStyles = {
   primary:
     "bg-[var(--color-accent-blood)] text-[var(--color-text-bone)] border-2 border-[#B8283D] border-b-[#52111A] border-r-[#52111A] hover:bg-[var(--color-accent-blood-bright)] hover:border-[#DF364E] active:border-t-[#52111A] active:border-l-[#52111A] pixel-shadow",
   secondary:
-    "bg-[var(--color-surface-obsidian)] text-[var(--color-accent-gold)] border-2 border-[var(--color-accent-gold)] hover:bg-[#1E1929] hover:text-[var(--color-accent-gold-bright)] hover:border-[var(--color-accent-gold-bright)] pixel-shadow",
+    "bg-[var(--color-surface-obsidian)] text-[var(--color-accent-gold)] border-2 border-[var(--color-accent-gold)] hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-accent-gold-bright)] hover:border-[var(--color-accent-gold-bright)] pixel-shadow",
   ghost:
     "bg-transparent text-[var(--color-text-bone)] border-2 border-[var(--color-border-gothic)] hover:border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-obsidian)] hover:text-[var(--color-accent-gold)] pixel-shadow-sm",
 };

@@ -35,8 +35,8 @@ export const InformationSection: React.FC<InformationSectionProps> = ({
                 className="w-full h-full object-cover pixelated"
               />
             ) : (
-              <div className="w-full h-full min-h-[220px] bg-[#120E18] flex flex-col items-center justify-center p-6 text-center select-none relative group">
-                <div className="w-24 h-24 mb-3 border-2 border-[var(--color-border-subtle)] bg-[#0B0A10] flex items-center justify-center font-pixel text-4xl text-[var(--color-accent-gold)] pixel-shadow-sm group-hover:border-[var(--color-accent-gold)] pixel-hover">
+              <div className="w-full h-full min-h-[220px] bg-[var(--color-surface-obsidian)] flex flex-col items-center justify-center p-6 text-center select-none relative group">
+                <div className="w-24 h-24 mb-3 border-2 border-[var(--color-border-subtle)] bg-[var(--color-bg-abyss)] flex items-center justify-center font-pixel text-4xl text-[var(--color-accent-gold)] pixel-shadow-sm group-hover:border-[var(--color-accent-gold)] pixel-hover">
                   ⚔
                 </div>
                 <div className="font-pixel text-xs text-[var(--color-text-bone)] uppercase tracking-widest">
@@ -53,7 +53,7 @@ export const InformationSection: React.FC<InformationSectionProps> = ({
           <div className="mt-4 w-full max-w-[280px] mx-auto md:mx-0 px-3 py-2 bg-[var(--color-surface-obsidian)] border border-[var(--color-border-gothic)] flex items-center gap-2 pixel-shadow-sm">
             <span
               aria-hidden="true"
-              className={`w-2 h-2 shrink-0 pixelated ${profile.status === "Dead" ? "bg-[#E05368]" : profile.status === "Sleeping" ? "bg-[#8A8397]" : profile.status === "Busy" ? "bg-[#F59E0B]" : profile.status === "AFK" ? "bg-[#8A8397]" : profile.status === "Respawning" ? "bg-[#C9A24B]" : "bg-[#22C55E]"}`}
+              className={`w-2 h-2 shrink-0 pixelated ${profile.status === "Dead" ? "bg-[var(--color-status-dead)]" : profile.status === "Sleeping" ? "bg-[var(--color-status-muted)]" : profile.status === "Busy" ? "bg-[var(--color-status-busy)]" : profile.status === "AFK" ? "bg-[var(--color-status-muted)]" : profile.status === "Respawning" ? "bg-[var(--color-status-respawning)]" : "bg-[var(--color-status-active)]"}`}
             />
             <span className="font-mono text-[11px] text-[var(--color-text-ash)] truncate">
               {profile.status}

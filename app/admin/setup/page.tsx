@@ -17,7 +17,7 @@ export default async function AdminSetupPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-[var(--color-bg-abyss)] selection:bg-[var(--color-accent-blood)] selection:text-[var(--color-text-bone)]">
+    <div data-admin-root className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-[var(--color-bg-abyss)] selection:bg-[var(--color-accent-blood)] selection:text-[var(--color-text-bone)]">
       <div className="w-full max-w-md">
         <AdminSetupForm />
       </div>
