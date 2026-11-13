@@ -119,13 +119,13 @@ export default async function PostDetailPage({ params }: PostPageProps) {
         </header>
 
         {/* Visual Banner */}
-        <PixelFrame variant="stone" aspectRatio={(post.imageRatio as "video" | "portrait" | "square" | "auto") || "video"} className="w-full">
+        <PixelFrame variant="stone" aspectRatio="auto" className="w-full">
           {post.thumbnailUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={post.thumbnailUrl}
               alt={post.title}
-              className={`w-full pixelated ${post.imageRatio === "auto" ? "h-auto block" : "h-full object-cover"}`}
+              className="block h-auto w-full pixelated"
             />
           ) : (
             <div className="w-full h-full min-h-[280px] bg-[var(--color-post-thumbnail)] flex flex-col items-center justify-center p-8 text-center select-none">

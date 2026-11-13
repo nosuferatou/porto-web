@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [theme, setThemeState] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
-  const transitionTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const transitionTimeout = useRef<number | undefined>(undefined);
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin") ?? false;
 
